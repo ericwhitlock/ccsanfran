@@ -1,0 +1,16 @@
+<Alloy>
+	<TabGroup id="tabs">
+		<Tab title="Home" icon="/icons/53-house.png">
+			<Require type="view" src="home" id="home"/>
+		</Tab>
+		<Tab id="blogTab" title="Blog" icon="/icons/96-book.png">
+			<Require type="view" src="blog" id="blog"/>
+		</Tab>
+		<Tab id="pastorsTab" title="Pastors" icon="/icons/112-group.png">
+			<Require type="view" src="pastors" id="pastors"/>
+		</Tab>
+		<Tab title="Contact" icon="/icons/96-book.png">
+			<Require type="view" src="contact" id="contact"/>
+		</Tab>
+	</TabGroup>
+</Alloy>

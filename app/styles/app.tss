@@ -1,0 +1,11 @@
+"Window": {
+	backgroundColor: "#DDDDDD",
+	barColor:"#999999"
+},
+"TableView":{
+	backgroundColor:"#DDDDDD",
+	separatorColor:"CCCCCC"
+},
+"WebView":{
+	backgroundColor:"transparent"
+}

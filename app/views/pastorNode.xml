@@ -1,0 +1,6 @@
+<Alloy>
+	<Window title="Pastor" id="win" onFocus="init">
+		<WebView id="web"></WebView>
+		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
+	</Window>
+</Alloy>
