@@ -3,22 +3,66 @@ var Alloy = require('alloy');
 var win = $.win;
 var table = $.tv;
 var tab = null;
+var now;
+var isUpdating = false;
+var firstTime = true;
 
 exports.setParentTab = function(pTab){
 	tab = pTab;
 };
 
+// Called every time the user clicks the Pastors Tab
 var init = function(){
 	Ti.API.info('[pastors][init]');
-	refresh();
+	
+	if(Ti.Network.online){
+		if(Alloy.Globals.shouldUpdate('last_update_pastors_tab')){
+			if(firstTime){
+				firstTime = false;
+				$.hang.show();
+			}
+			updateFromNetwork();
+		}else{
+			populateTable();
+		}
+		
+	}else{
+		populateTable();
+	}
+	
 };
 
-var refresh = function(){
-	Ti.API.info('[pastors][refresh]');
+function populateTable() {
+ 
+    var pastorCollection = Alloy.Globals.db.getPastors();
+ 
+    if(pastorCollection.length > 0){
+    	$.hang.hide();
+    	$.tryAgain.visible = false;
+		$.errorLabel.visible = false;
+    	var rows = [];
+    	for (var i = 0; i < pastorCollection.length; i++) {
+	        var data = pastorCollection[i];
+	        var row = Alloy.createController('pastorRow', data).getView();
+	        rows.push(row);
+	    }
+	 
+	    $.tv.setData(rows);
+    }else{
+    	$.hang.hide();
+    	$.tryAgain.visible = true;
+		$.errorLabel.visible = true;
+		$.hang.hide();
+    }
+};
+
+var updateFromNetwork = function(){
+	isUpdating = true;
+	
 	var url = Alloy.Globals.SITE_PATH + 'pastors/api/json';
-	Ti.API.info('[pastors][refresh] url = ' + url);
+	Ti.API.info('[pastors][updateFromNetwork] url = ' + url);
 	// Create a connection inside the variable xhr
-	var xhr = Titanium.Network.createHTTPClient();
+	var xhr = Titanium.Network.createHTTPClient({timeout:20000});
 	
 	// Open the xhr
 	xhr.open("GET",url);
@@ -35,8 +79,6 @@ var refresh = function(){
 		
 		// Check if we have a xhr
 		if(statusCode == 200) {
-			$.errorLabel.visible = false;
-			
 			// Save the responseText from the xhr in the response variable
 			var response = xhr.responseText;
 			
@@ -76,8 +118,9 @@ var refresh = function(){
 				// Uncomment the next line to see the full object in JSON format 
 				// alert(result[key]); 
 				
-				// Uncomment the next line to see an example of how to get the title of every result
-				// alert(data.field_event_date);
+				// Store this pastor in the db
+				Alloy.Globals.db.addPastor(data); // data = {uid, field_profile_full_name, field_photo});
+					
 				
 				/**
 				 * We start adding the results one by one to our array "results"
@@ -87,20 +130,35 @@ var refresh = function(){
 				 */
 				results[key] = {title: data.field_profile_full_name, hasChild:true, uid:data.uid};
 			}
-			table.setData(results);
+			populateTable();
+			
+			Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_pastors_tab');
+			now = null;
+			isUpdating = false;
 		}
 		else {
 			handleError();
 		}
 	}
+	
+	now = new Date();
 	xhr.send();
 };
 
 var onTableClick = function(e){
-	var node = Alloy.createController('pastorNode', {uid: e.rowData.uid, title:e.rowData.title});
+	var node = Alloy.createController('pastorNode', {uid: e.rowData.uid, title:e.rowData.field_profile_full_name, image:e.rowData.field_photo});
 	tab.open(node.window,{animated:true});
 };
 
 var handleError = function(){
-	$.errorLabel.visible = true;
+	isUpdating = false;
+	populateTable();
+};
+
+var tryAgain = function(){
+	$.hang.show();
+	$.tryAgain.visible = false;
+	$.errorLabel.visible = false;
+	isUpdating = false;
+	updateFromNetwork();
 };

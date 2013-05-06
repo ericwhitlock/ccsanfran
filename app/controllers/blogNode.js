@@ -13,8 +13,52 @@ var title = args.title || '';
 
 
 win.title = title;
+var isUpdating = false;
+var now;
 
+// Called every time the user clicks the Blog Tab
 var init = function(){
+	Ti.API.info('[blog][init]');
+	
+	if(Ti.Network.online){
+		if(Alloy.Globals.shouldUpdate('last_update_blog_node_' + nid)){
+			populate();
+			updateFromNetwork();
+		}else{
+			populate();
+		}
+		
+	}else{
+		populate();
+	}
+	
+};
+
+var populate = function(){
+	var blogNode = Alloy.Globals.blogs[nid];
+	if(blogNode == '' || !blogNode){
+		$.tryAgain.visible = true;
+	}else{
+		view.setHtml('<br/><br/><br/>' + blogNode.body);
+	}
+	
+	var node_data_string = Alloy.Globals.db.getValueByKey('blog_data_node_' + nid);
+	if(node_data_string != ''){
+		var node_data = JSON.parse(node_data_string);
+		var total_comments_string = node_data.comment;
+		var total_comments = parseInt(total_comments_string);
+		
+		if(total_comments > 0){
+			
+		}
+	}
+	
+	
+};
+
+var updateFromNetwork = function(){
+	isUpdating = true;
+	
 	// Define the url which contains the full url
 	// See how we build the url using the win.nid which is 
 	// the nid property we pass to this file when we create the window
@@ -38,30 +82,31 @@ var init = function(){
 		
 		// Check if we have a xhr
 		if(statusCode == 200) {
-			$.errorLabel.visible = false;
-			
 			// Save the responseText from the xhr in the response variable
 			var response = xhr.responseText;
 			
-			// Parse (build data structure) the JSON response into an object (data)
-			var data = JSON.parse(response);
-			
-			var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="/includes/styles.css" type="text/css" /></head><body><div class="webview">';
-			bodyHtml = bodyHtml + '<h1>' + data.title + '</h1>' + data.body.und[0].value;
-			bodyHtml = bodyHtml + '</div></body></html>';
-			
-			// Add bodyHtml labels to our view
-			view.setHtml(bodyHtml);
+			Alloy.Globals.db.updateValueByKey(response, 'blog_data_node_' + nid);
+			populate();
+			Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_node_' + nid);
+			isUpdating = false;
+			now = null;
 		} 
 		else {
 			handleError();
 		}
 	}
 	
-	// Send the xhr
+	now = new Date();
 	xhr.send();
 };
 
 var handleError = function(){
 	$.errorLabel.visible;
+};
+
+var tryAgain = function(){
+	$.tryAgain.visible = false;
+	$.errorLabel.visible = false;
+	isUpdating = false;
+	updateFromNetwork();
 };

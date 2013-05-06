@@ -1,0 +1,6 @@
+<Alloy>
+	<TableViewRow id="row" height="50">
+		<ImageView id="thumb" left="0" height="50" width="50"></ImageView>
+		<Label id="titleLabel" left="63"></Label>
+	</TableViewRow>
+</Alloy>

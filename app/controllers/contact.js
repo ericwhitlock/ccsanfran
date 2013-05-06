@@ -2,14 +2,51 @@ var Alloy = require('alloy');
 
 var win = $.win;
 var view = $.web;
+var now;
+var firstTime = true;
 
-
+// Called every time the user clicks the Pastors Tab
 var init = function(){
-	Ti.API.info('[contact][init]');
-	refresh();
+	Ti.API.info('[pastors][init]');
+	
+	if(Ti.Network.online){
+		if(Alloy.Globals.shouldUpdate('last_update_contact_tab')){
+			if(firstTime){
+				firstTime = false;
+				$.hang.show();
+			}
+			updateFromNetwork();
+		}else{
+			populate();
+		}
+		
+	}else{
+		populate();
+	}
+	
 };
 
-var refresh = function(){
+var populate = function(){
+	var contact_data_string = Alloy.Globals.db.getValueByKey('contact_json');
+	
+	if(contact_data_string == ''){
+		$.tryAgain.visible = true;
+		$.errorLabel.visible = true;
+		$.hang.hide();
+	}else{
+		$.tryAgain.visible = false;
+		$.errorLabel.visible = false;
+		$.hang.hide();
+		var contact_data = JSON.parse(contact_data_string);
+		
+		var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="styles.css" type="text/css" /></head><body><div class="webview">';
+		bodyHtml = bodyHtml + '<h1>' + contact_data.title + '</h1>' + contact_data.body.und[0].value;
+		bodyHtml = bodyHtml + '</div></body></html>';
+		view.setHtml(bodyHtml);
+	}
+};
+
+var updateFromNetwork = function(){
 	var url = Alloy.Globals.REST_PATH + 'node/5' + '.json';
 
 	// Create a connection inside the variable xhr
@@ -30,30 +67,32 @@ var refresh = function(){
 		
 		// Check if we have a xhr
 		if(statusCode == 200) {
-			$.errorLabel.visible = false;
-			
 			// Save the responseText from the xhr in the response variable
 			var response = xhr.responseText;
 			
-			// Parse (build data structure) the JSON response into an object (data)
-			var data = JSON.parse(response);
+			var contact_data_string = Alloy.Globals.db.updateValueByKey(response, 'contact_json');
 			
-			var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="styles.css" type="text/css" /></head><body><div class="webview">';
-			bodyHtml = bodyHtml + '<h1>' + data.title + '</h1>' + data.body.und[0].value;
-			bodyHtml = bodyHtml + '</div></body></html>';
-			
-			// Add bodyHtml labels to our view
-			view.setHtml(bodyHtml);
-			
+			Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_contact_tab');
+			populate();
 		}
 		else {
 			handleError();
 		}
 	}
 	
+	now = new Date();
 	xhr.send();
 };
 
 var handleError = function(){
-	$.errorLabel.visible = true;
+	isUpdating = false;
+	populate();
+};
+
+var tryAgain = function(){
+	$.hang.show();
+	$.tryAgain.visible = false;
+	$.errorLabel.visible = false;
+	isUpdating = false;
+	updateFromNetwork();
 };

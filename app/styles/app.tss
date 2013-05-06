@@ -7,5 +7,32 @@
 	separatorColor:"CCCCCC"
 },
 "WebView":{
-	backgroundColor:"transparent"
+	backgroundColor:"transparent",
+	hideLoadIndicator:true
 }
+
+"ActivityIndicator":{
+	style:Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+}
+
+"#titleLabel":{
+	font:{fontWeight:"bold", fontSize:17}
+}
+
+"#errorLabel":{
+	top:100
+}
+
+"#tryAgain":{
+	borderRadius:10,
+	borderColor:"#999999",
+	backgroundColor:"#CCCCCC",
+	width:145,
+	height:75
+}
+
+"#tryAgainLabel":{
+	font:{fontWeight:"bold", fontSize:17}
+}
+
+

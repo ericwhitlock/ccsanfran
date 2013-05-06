@@ -15,31 +15,72 @@ function Controller() {
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
     $.__views.web = Ti.UI.createWebView({
         backgroundColor: "transparent",
+        hideLoadIndicator: true,
         id: "web"
     });
     $.__views.win.add($.__views.web);
     $.__views.errorLabel = Ti.UI.createLabel({
+        top: 100,
         text: "Please check your internet connection.",
         id: "errorLabel",
         visible: "false"
     });
     $.__views.win.add($.__views.errorLabel);
+    $.__views.tryAgain = Ti.UI.createView({
+        borderRadius: 10,
+        borderColor: "#999999",
+        backgroundColor: "#CCCCCC",
+        width: 145,
+        height: 75,
+        id: "tryAgain",
+        visible: "false"
+    });
+    $.__views.win.add($.__views.tryAgain);
+    tryAgain ? $.__views.tryAgain.addEventListener("click", tryAgain) : __defers["$.__views.tryAgain!click!tryAgain"] = true;
+    $.__views.tryAgainLabel = Ti.UI.createLabel({
+        font: {
+            fontWeight: "bold",
+            fontSize: 17
+        },
+        text: "Try again!",
+        id: "tryAgainLabel"
+    });
+    $.__views.tryAgain.add($.__views.tryAgainLabel);
+    $.__views.hang = Ti.UI.createActivityIndicator({
+        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+        id: "hang",
+        message: "We're with you!"
+    });
+    $.__views.win.add($.__views.hang);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var Alloy = require("alloy");
     var win = $.win;
     var view = $.web;
+    var isUpdating = false;
+    var firstTime = true;
     exports.window = win;
     var args = arguments[0] || {};
     var uid = args.uid || "";
-    args.title || "";
+    var image = args.image || "";
+    var title = args.title || "";
+    win.title = title;
     var init = function() {
         Ti.API.info("[pastorNode][init]");
-        refresh();
+        if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_pastornode_" + uid)) {
+            if (firstTime) {
+                firstTime = false;
+                $.hang.show();
+            }
+            updateFromNetwork();
+        } else populate(); else populate();
     };
-    var refresh = function() {
+    var updateFromNetwork = function() {
+        isUpdating = true;
         var url = Alloy.Globals.REST_PATH + "user/" + uid + ".json";
-        var xhr = Titanium.Network.createHTTPClient();
+        var xhr = Titanium.Network.createHTTPClient({
+            timeout: 2e4
+        });
         xhr.open("GET", url);
         xhr.onerror = function() {
             handleError();
@@ -47,22 +88,47 @@ function Controller() {
         xhr.onload = function() {
             var statusCode = xhr.status;
             if (200 == statusCode) {
-                $.errorLabel.visible = false;
                 var response = xhr.responseText;
                 var data = JSON.parse(response);
-                win.title = data.title;
                 var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="/includes/styles.css" type="text/css" /></head><body><div class="webview">';
-                bodyHtml = bodyHtml + "<h1>" + data.field_profile_full_name.und[0].safe_value + "</h1>" + data.field_profile_vision.und[0].safe_value;
+                bodyHtml = bodyHtml + '<image src= "' + image + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/><br/>' + data.field_profile_vision.und[0].safe_value;
                 bodyHtml += "</div></body></html>";
-                view.setHtml(bodyHtml);
+                Alloy.Globals.db.updateValueByKey(bodyHtml, "pastor_node_body_" + uid);
+                populate();
+                Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_pastornode_" + uid);
+                now = null;
+                isUpdating = false;
             } else handleError();
         };
+        var now = new Date();
         xhr.send();
     };
+    var populate = function() {
+        var bodyHtml = Alloy.Globals.db.getValueByKey("pastor_node_body_" + uid);
+        if ("" == bodyHtml) {
+            $.errorLabel.visible = true;
+            $.tryAgain.visible = true;
+            $.hang.hide();
+        } else {
+            $.errorLabel.visible = false;
+            $.tryAgain.visible = false;
+            $.hang.hide();
+            view.setHtml(bodyHtml);
+        }
+    };
     var handleError = function() {
-        $.errorLabel.visible = true;
+        isUpdating = false;
+        populate();
+    };
+    var tryAgain = function() {
+        $.hang.show();
+        $.tryAgain.visible = false;
+        $.errorLabel.visible = false;
+        isUpdating = false;
+        updateFromNetwork();
     };
     __defers["$.__views.win!focus!init"] && $.__views.win.addEventListener("focus", init);
+    __defers["$.__views.tryAgain!click!tryAgain"] && $.__views.tryAgain.addEventListener("click", tryAgain);
     _.extend($, exports);
 }
 

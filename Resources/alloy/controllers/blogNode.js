@@ -15,15 +15,37 @@ function Controller() {
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
     $.__views.web = Ti.UI.createWebView({
         backgroundColor: "transparent",
+        hideLoadIndicator: true,
         id: "web"
     });
     $.__views.win.add($.__views.web);
     $.__views.errorLabel = Ti.UI.createLabel({
+        top: 100,
         text: "Please check your internet connection.",
         id: "errorLabel",
         visible: "false"
     });
     $.__views.win.add($.__views.errorLabel);
+    $.__views.tryAgain = Ti.UI.createView({
+        borderRadius: 10,
+        borderColor: "#999999",
+        backgroundColor: "#CCCCCC",
+        width: 145,
+        height: 75,
+        id: "tryAgain",
+        visible: "false"
+    });
+    $.__views.win.add($.__views.tryAgain);
+    tryAgain ? $.__views.tryAgain.addEventListener("click", tryAgain) : __defers["$.__views.tryAgain!click!tryAgain"] = true;
+    $.__views.tryAgainLabel = Ti.UI.createLabel({
+        font: {
+            fontWeight: "bold",
+            fontSize: 17
+        },
+        text: "Try again!",
+        id: "tryAgainLabel"
+    });
+    $.__views.tryAgain.add($.__views.tryAgainLabel);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var Alloy = require("alloy");
@@ -34,7 +56,28 @@ function Controller() {
     var nid = args.nid || "";
     var title = args.title || "";
     win.title = title;
+    var isUpdating = false;
+    var now;
     var init = function() {
+        Ti.API.info("[blog][init]");
+        if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_blog_node_" + nid)) {
+            populate();
+            updateFromNetwork();
+        } else populate(); else populate();
+    };
+    var populate = function() {
+        var blogNode = Alloy.Globals.blogs[nid];
+        "" != blogNode && blogNode ? view.setHtml("<br/><br/><br/>" + blogNode.body) : $.tryAgain.visible = true;
+        var node_data_string = Alloy.Globals.db.getValueByKey("blog_data_node_" + nid);
+        if ("" != node_data_string) {
+            var node_data = JSON.parse(node_data_string);
+            var total_comments_string = node_data.comment;
+            var total_comments = parseInt(total_comments_string);
+            total_comments > 0;
+        }
+    };
+    var updateFromNetwork = function() {
+        isUpdating = true;
         var url = Alloy.Globals.REST_PATH + "node/" + nid + ".json";
         var xhr = Titanium.Network.createHTTPClient();
         xhr.open("GET", url);
@@ -44,21 +87,28 @@ function Controller() {
         xhr.onload = function() {
             var statusCode = xhr.status;
             if (200 == statusCode) {
-                $.errorLabel.visible = false;
                 var response = xhr.responseText;
-                var data = JSON.parse(response);
-                var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="/includes/styles.css" type="text/css" /></head><body><div class="webview">';
-                bodyHtml = bodyHtml + "<h1>" + data.title + "</h1>" + data.body.und[0].value;
-                bodyHtml += "</div></body></html>";
-                view.setHtml(bodyHtml);
+                Alloy.Globals.db.updateValueByKey(response, "blog_data_node_" + nid);
+                populate();
+                Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_node_" + nid);
+                isUpdating = false;
+                now = null;
             } else handleError();
         };
+        now = new Date();
         xhr.send();
     };
     var handleError = function() {
         $.errorLabel.visible;
     };
+    var tryAgain = function() {
+        $.tryAgain.visible = false;
+        $.errorLabel.visible = false;
+        isUpdating = false;
+        updateFromNetwork();
+    };
     __defers["$.__views.win!focus!init"] && $.__views.win.addEventListener("focus", init);
+    __defers["$.__views.tryAgain!click!tryAgain"] && $.__views.tryAgain.addEventListener("click", tryAgain);
     _.extend($, exports);
 }
 

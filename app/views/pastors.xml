@@ -1,6 +1,10 @@
 <Alloy>
 	<Window title="Pastors" id="win" onFocus="init">
-		<TableView id="tv" onClick="onTableClick"></TableView>
+		<TableView id="tv" width="Ti.UI.FILL" onClick="onTableClick"></TableView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
+		<View id="tryAgain" visible="false" onClick="tryAgain">
+			<Label id="tryAgainLabel">Try again!</Label>
+		</View>
+		<ActivityIndicator id="hang" message="Stay the course!"></ActivityIndicator>
 	</Window>
 </Alloy>

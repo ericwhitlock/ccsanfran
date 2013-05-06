@@ -2,5 +2,9 @@
 	<Window title="Pastor" id="win" onFocus="init">
 		<WebView id="web"></WebView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
+		<View id="tryAgain" visible="false" onClick="tryAgain">
+			<Label id="tryAgainLabel">Try again!</Label>
+		</View>
+		<ActivityIndicator id="hang" message="We're with you!"></ActivityIndicator>
 	</Window>
 </Alloy>

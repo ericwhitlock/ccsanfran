@@ -2,5 +2,9 @@
 	<Window id="win" title="Blog" onFocus="init">
 		<TableView id="tv" onClick="onTableClick"></TableView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
+		<View id="tryAgain" visible="false" onClick="tryAgain">
+			<Label id="tryAgainLabel">Try again!</Label>
+		</View>
+		<ActivityIndicator id="hang" message="Don't give up!"></ActivityIndicator>
 	</Window>
 </Alloy>

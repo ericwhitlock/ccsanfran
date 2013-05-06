@@ -2,15 +2,49 @@ var Alloy = require('alloy');
 
 var win = $.win;
 var view = $.web;
+var now;
+var isUpdating = false;
+var firstTime = true;
 
+// Called every time the user clicks the Pastors Tab
 var init = function(){
-	Ti.API.info('[home][init]');
-	refresh();
+	Ti.API.info('[pastors][init]');
+	
+	if(Ti.Network.online){
+		if(Alloy.Globals.shouldUpdate('last_update_home_tab')){
+			if(firstTime){
+				firstTime = false;
+				$.hang.show();
+			}
+			updateFromNetwork();
+		}else{
+			populate();
+		}
+		
+	}else{
+		populate();
+	}
+	
 };
 
-var refresh = function(){
-	Ti.API.info('[home][refresh]');
-	$.errorLabel.visible = false;
+var populate = function(){
+	var home_html = Alloy.Globals.db.getValueByKey('home_html');
+	if(home_html == ''){
+		$.tryAgain.visible = true;
+		$.errorLabel.visible = true;
+		$.hang.hide();
+	}else{
+		$.tryAgain.visible = false;
+		$.errorLabel.visible = false;
+		$.hang.hide();
+		view.setHtml(home_html);
+	}
+};
+
+var updateFromNetwork = function(){
+	Ti.API.info('[home][updateFromNetwork]');
+	
+	isUpdating = true;
 	
 	var xhr = Titanium.Network.createHTTPClient();
 	
@@ -35,10 +69,12 @@ var refresh = function(){
 			bodyHtml = bodyHtml + '<h1>' + data.title + '</h1>' + data.body.und[0].value;
 			bodyHtml = bodyHtml + '</div></body></html>';
 			
-			Ti.API.info('bodyHTML = ' + bodyHtml);
+			Alloy.Globals.db.updateValueByKey(bodyHtml, 'home_html');
+			populate();
 			
-			// Add bodyHtml labels to our view
-			view.setHtml(bodyHtml);
+			Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_home_tab');
+			now = null;
+			isUpdating = false;
 		}
 		else {
 			handleError();
@@ -48,13 +84,22 @@ var refresh = function(){
 	xhr.onerror = function(err){
 		handleError();
 	};
+	
+	now = new Date();
 	xhr.send();
 };
 
 var handleError = function(){
-	$.errorLabel.visible = true;
+	isUpdating = false;
+	populate();
 };
 
-
+var tryAgain = function(){
+	$.tryAgain.visible = false;
+	$.errorLabel.visible = false;
+	$.hang.show();
+	isUpdating = false;
+	updateFromNetwork();
+};
 
 
