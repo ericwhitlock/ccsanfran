@@ -16,7 +16,7 @@ var db = function(){
 		_db.execute('CREATE TABLE IF NOT EXISTS UserPreferences (myKey TEXT PRIMARY KEY, myValue TEXT)');
 		
 		
-		_db.execute('CREATE TABLE IF NOT EXISTS pastors (uid TEXT PRIMARY KEY, field_profile_full_name TEXT, field_photo TEXT)');
+		_db.execute('CREATE TABLE IF NOT EXISTS pastors (uid TEXT PRIMARY KEY, field_profile_full_name TEXT, field_photo TEXT, field_profile_location TEXT)');
 		
 		//_db.execute('CREATE TABLE IF NOT EXISTS mymessages (id TEXT PRIMARY KEY, title TEXT, status TEXT)');
 		
@@ -94,12 +94,13 @@ var db = function(){
 			Titanium.API.info('[_db] pastor exists, UPDATE');
 			_db.execute('UPDATE pastors SET field_profile_full_name = ? WHERE uid = ?', params.field_profile_full_name, params.uid);
 			_db.execute('UPDATE pastors SET field_photo = ? WHERE uid = ?', params.field_photo, params.uid);
+			_db.execute('UPDATE pastors SET field_profile_location = ? WHERE uid = ?', params.field_profile_location, params.uid);
 			Titanium.API.info('[_db] pastors, completed');
 		}
 		else
 		{
 			Titanium.API.info('[_db] pastor does not exist, INSERT');
-			_db.execute('INSERT INTO pastors (uid, field_profile_full_name, field_photo) VALUES (?,?,?)', params.uid, params.field_profile_full_name, params.field_photo);
+			_db.execute('INSERT INTO pastors (uid, field_profile_full_name, field_photo, field_profile_location) VALUES (?,?,?,?)', params.uid, params.field_profile_full_name, params.field_photo, params.field_profile_location);
 			Titanium.API.info('[_db] pastors, completed');
 		}
 		
@@ -114,7 +115,8 @@ var db = function(){
 			results.push({
 				uid:resultSet.fieldByName('uid'),
 				field_profile_full_name:resultSet.fieldByName('field_profile_full_name'),
-				field_photo:resultSet.fieldByName('field_photo')
+				field_photo:resultSet.fieldByName('field_photo'),
+				field_profile_location:resultSet.fieldByName('field_profile_location')
 			});
 			resultSet.next();
 		}

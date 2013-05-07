@@ -8,6 +8,7 @@ var now;
 var isUpdating = false;
 var firstTime = true;
 var changed = false;
+var rowData = [];
 
 exports.setParentTab = function(pTab){
 	tab = pTab;
@@ -55,6 +56,7 @@ var updateFromNetwork = function(){
 				var response = xhr.responseText;
 				
 				Alloy.Globals.db.updateValueByKey(response, 'blog_json');
+				changed = true;
 				populateTable();
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_tab');
 				isUpdating = false;
@@ -88,10 +90,11 @@ var populateTable = function(){
 		$.errorLabel.visible = false;
 		
 		if(firstTime || changed){
+			
 			var blogCollection = JSON.parse(blogJSON);
 			var i_start = Alloy.Globals.blogsShowingIndex;
 			var i_end = blogCollection.length;
-			if(blogCollection > Alloy.Globals.MAX_BLOGS){
+			if(blogCollection.length > (i_start + Alloy.Globals.MAX_BLOGS)){
 				i_end = Alloy.Globals.blogsShowingIndex + Alloy.Globals.MAX_BLOGS;
 			}
 			var rows = [];
@@ -102,12 +105,16 @@ var populateTable = function(){
 		        Alloy.Globals.blogsShowingIndex = i;
 		    }
 		 	
+		 	var data = rowData.concat(rows);
+		 	rowData = data.slice(0);
+		 	
 		 	if(i_end < blogCollection.length){
-		 		var row = Ti.UI.createTableViewRow({nid:'show_more', title:'Show more blogs!'});
-		 		rows.push(row);
+		 		var show_more_row = Ti.UI.createTableViewRow({nid:'show_more', title:'Show more blogs!', height:84});
+		 		data.push(show_more_row);
 		 	}
 		 	
-		    $.tv.setData(rows);
+		    $.tv.setData(data);
+		    
 		}
 		
 	}
@@ -116,9 +123,14 @@ var populateTable = function(){
 };
 
 var onTableClick = function(e){
-	var node = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData._title, body:e.rowData.body});
-	
-	tab.open(node.window);
+	if(e.rowData.nid == 'show_more'){
+		changed = true;
+		Alloy.Globals.blogsShowingIndex++;
+		populateTable();
+	}else{
+		var node = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData._title, body:e.rowData.body, author:e.rowData.author});
+		tab.open(node.window);
+	}
 };
 
 var handleError = function(){

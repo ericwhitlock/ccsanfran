@@ -4,7 +4,7 @@ Alloy.Globals.REST_PATH = "http://poimen.enjoycreativity.com/api/rest/";
 
 Alloy.Globals.SITE_PATH = "http://poimen.enjoycreativity.com/";
 
-Alloy.Globals.MAX_BLOGS = 5;
+Alloy.Globals.MAX_BLOGS = 20;
 
 Alloy.Globals.blogsShowingIndex = 0;
 

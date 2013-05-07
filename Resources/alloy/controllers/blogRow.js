@@ -23,19 +23,19 @@ function Controller() {
         top: "2"
     });
     $.__views.row.add($.__views.titleLabel);
-    $.__views.subTitleLabel = Ti.UI.createLabel({
+    $.__views.subTitleName = Ti.UI.createLabel({
         font: {
-            fontWeight: "normal",
+            fontWeight: "bold",
             fontSize: 14
         },
         color: "#666666",
-        id: "subTitleLabel",
+        id: "subTitleName",
         left: "10",
         right: "12",
         height: "18",
         top: "42"
     });
-    $.__views.row.add($.__views.subTitleLabel);
+    $.__views.row.add($.__views.subTitleName);
     $.__views.dateLabel = Ti.UI.createLabel({
         font: {
             fontWeight: "normal",
@@ -60,14 +60,14 @@ function Controller() {
     var title = args.title || "";
     var body = args.body || "";
     var changed = args.changed || "";
-    var author = args.author || null;
+    var author = args.field_profile_full_name || null;
     $.row.nid = nid;
     $.row._title = title;
     $.row.body = body;
     $.row.author = author;
     $.row.changed = changed;
     $.titleLabel.text = title;
-    $.subTitleLabel.text = author ? author : "Author Unknown";
+    $.subTitleName.text = author ? author : "Author Unknown";
     $.dateLabel.text = changed;
     _.extend($, exports);
 }

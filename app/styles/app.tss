@@ -25,6 +25,11 @@
 	color:"#666666"
 }
 
+"#subTitleName":{
+	font:{fontWeight:"bold", fontSize:14},
+	color:"#666666"
+}
+
 "#dateLabel":{
 	font:{fontWeight:"normal", fontSize:14},
 	color:"#666666"

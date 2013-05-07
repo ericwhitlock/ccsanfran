@@ -63,6 +63,8 @@ function Controller() {
     var now;
     var isUpdating = false;
     var firstTime = true;
+    var changed = false;
+    var rowData = [];
     exports.setParentTab = function(pTab) {
         tab = pTab;
     };
@@ -89,6 +91,7 @@ function Controller() {
                 if (200 == statusCode) {
                     var response = xhr.responseText;
                     Alloy.Globals.db.updateValueByKey(response, "blog_json");
+                    changed = true;
                     populateTable();
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_tab");
                     isUpdating = false;
@@ -109,28 +112,48 @@ function Controller() {
             $.hang.hide();
             $.tryAgain.visible = false;
             $.errorLabel.visible = false;
-            var blogCollection = JSON.parse(blogJSON);
-            var i_start = Alloy.Globals.blogsShowingIndex;
-            var i_end = blogCollection.length;
-            blogCollection > Alloy.Globals.MAX_BLOGS && (i_end = Alloy.Globals.blogsShowingIndex + Alloy.Globals.MAX_BLOGS);
-            var rows = [];
-            for (var i = i_start; i_end > i; i++) {
-                var data = blogCollection[i];
-                var row = Alloy.createController("blogRow", data).getView();
-                rows.push(row);
-                Alloy.Globals.blogsShowingIndex = i;
+            if (firstTime || changed) {
+                var blogCollection = JSON.parse(blogJSON);
+                var i_start = Alloy.Globals.blogsShowingIndex;
+                var i_end = blogCollection.length;
+                blogCollection.length > i_start + Alloy.Globals.MAX_BLOGS && (i_end = Alloy.Globals.blogsShowingIndex + Alloy.Globals.MAX_BLOGS);
+                var rows = [];
+                for (var i = i_start; i_end > i; i++) {
+                    var data = blogCollection[i];
+                    var row = Alloy.createController("blogRow", data).getView();
+                    rows.push(row);
+                    Alloy.Globals.blogsShowingIndex = i;
+                }
+                var data = rowData.concat(rows);
+                rowData = data.slice(0);
+                if (blogCollection.length > i_end) {
+                    var show_more_row = Ti.UI.createTableViewRow({
+                        nid: "show_more",
+                        title: "Show more blogs!",
+                        height: 84
+                    });
+                    data.push(show_more_row);
+                }
+                $.tv.setData(data);
             }
-            $.tv.setData(rows);
         }
         firstTime = false;
+        changed = false;
     };
     var onTableClick = function(e) {
-        var node = Alloy.createController("blogNode", {
-            nid: e.rowData.nid,
-            title: e.rowData._title,
-            body: e.rowData.body
-        });
-        tab.open(node.window);
+        if ("show_more" == e.rowData.nid) {
+            changed = true;
+            Alloy.Globals.blogsShowingIndex++;
+            populateTable();
+        } else {
+            var node = Alloy.createController("blogNode", {
+                nid: e.rowData.nid,
+                title: e.rowData._title,
+                body: e.rowData.body,
+                author: e.rowData.author
+            });
+            tab.open(node.window);
+        }
     };
     var handleError = function() {
         isUpdating = false;

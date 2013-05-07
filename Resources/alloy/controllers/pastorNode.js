@@ -104,7 +104,10 @@ function Controller() {
     };
     var populate = function() {
         var bodyHtml = Alloy.Globals.db.getValueByKey("pastor_node_body_" + uid);
-        if ("" == bodyHtml) if (firstTime) $.hang.show(); else {
+        if ("" == bodyHtml) if (firstTime) {
+            view.setHtml('<image src= "' + image + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/>');
+            $.hang.show();
+        } else {
             $.errorLabel.visible = true;
             $.tryAgain.visible = true;
             $.hang.hide();

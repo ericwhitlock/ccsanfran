@@ -11,10 +11,11 @@ var args = arguments[0] || {};
 var nid = args.nid || '';
 var title = args.title || '';
 var body = args.body || '';
+var author = args.author || '';
 
 var bComments = Ti.UI.createButton({title:'Comments'});
 bComments.addEventListener('click', function(e){
-	
+	alert('This will open comments');
 });
 win.rightNavButton = bComments;
 
@@ -44,7 +45,7 @@ var init = function(){
 };
 
 var populate = function(){
-	view.setHtml('<h1>' + title + '</h1>' + body);
+	view.setHtml('<h1>' + title + '</h1><h4>' + author + '</h4>' + body);
 	
 	var node_data_string = Alloy.Globals.db.getValueByKey('blog_data_node_' + nid);
 	if(node_data_string != ''){
@@ -53,7 +54,7 @@ var populate = function(){
 		var total_comments = parseInt(total_comments_string);
 		
 		if(total_comments > 0){
-			
+			bComments.title = 'Comments (' + total_comments + ')';
 		}
 	}
 	

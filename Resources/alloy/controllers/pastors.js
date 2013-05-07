@@ -5,19 +5,22 @@ function Controller() {
             $.hang.hide();
             $.tryAgain.visible = false;
             $.errorLabel.visible = false;
-            var rows = [];
-            for (var i = 0; pastorCollection.length > i; i++) {
-                var data = pastorCollection[i];
-                var row = Alloy.createController("pastorRow", data).getView();
-                rows.push(row);
+            if (firstTime || changed) {
+                var rows = [];
+                for (var i = 0; pastorCollection.length > i; i++) {
+                    var data = pastorCollection[i];
+                    var row = Alloy.createController("pastorRow", data).getView();
+                    rows.push(row);
+                }
+                $.tv.setData(rows);
             }
-            $.tv.setData(rows);
         } else if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
         }
         firstTime = false;
+        changed = false;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -83,6 +86,7 @@ function Controller() {
     var now;
     var isUpdating = false;
     var firstTime = true;
+    var changed = false;
     exports.setParentTab = function(pTab) {
         tab = pTab;
     };
@@ -114,6 +118,7 @@ function Controller() {
                         var data = result[key];
                         Alloy.Globals.db.addPastor(data);
                     }
+                    changed = true;
                     populateTable();
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_pastors_tab");
                     now = null;

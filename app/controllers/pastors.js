@@ -6,6 +6,7 @@ var tab = null;
 var now;
 var isUpdating = false;
 var firstTime = true;
+var changed = false;
 
 exports.setParentTab = function(pTab){
 	tab = pTab;
@@ -32,21 +33,23 @@ var init = function(){
 };
 
 function populateTable() {
+ 	
+ 	var pastorCollection = Alloy.Globals.db.getPastors();
  
-    var pastorCollection = Alloy.Globals.db.getPastors();
- 
-    if(pastorCollection.length > 0){
+	if(pastorCollection.length > 0){
     	$.hang.hide();
     	$.tryAgain.visible = false;
 		$.errorLabel.visible = false;
-    	var rows = [];
-    	for (var i = 0; i < pastorCollection.length; i++) {
-	        var data = pastorCollection[i];
-	        var row = Alloy.createController('pastorRow', data).getView();
-	        rows.push(row);
-	    }
-	 
-	    $.tv.setData(rows);
+	    	
+	    if(firstTime || changed){
+		    var rows = [];
+		    for (var i = 0; i < pastorCollection.length; i++) {
+				var data = pastorCollection[i];
+				var row = Alloy.createController('pastorRow', data).getView();
+	        	rows.push(row);
+	    	}
+	    	$.tv.setData(rows);
+		}
     }else{
     	if(firstTime){
     		$.hang.show();
@@ -56,7 +59,9 @@ function populateTable() {
 			$.hang.hide();
     	}
     }
+    
     firstTime = false;
+    changed = false;
 };
 
 var updateFromNetwork = function(){
@@ -92,6 +97,7 @@ var updateFromNetwork = function(){
 					
 					Alloy.Globals.db.addPastor(data); // data = {uid, field_profile_full_name, field_photo});
 				}
+				changed = true;
 				populateTable();
 				
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_pastors_tab');

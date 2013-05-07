@@ -24,9 +24,21 @@ function Controller() {
         },
         color: "#000000",
         id: "titleLabel",
-        left: "63"
+        left: "63",
+        top: "5"
     });
     $.__views.row.add($.__views.titleLabel);
+    $.__views.subTitleLabel = Ti.UI.createLabel({
+        font: {
+            fontWeight: "normal",
+            fontSize: 14
+        },
+        color: "#666666",
+        id: "subTitleLabel",
+        left: "63",
+        top: "28"
+    });
+    $.__views.row.add($.__views.subTitleLabel);
     exports.destroy = function() {};
     _.extend($, $.__views);
     require("alloy");
@@ -35,14 +47,15 @@ function Controller() {
     exports.window = win;
     var args = arguments[0] || {};
     var uid = args.uid || "";
-    var field_profile_full_name = args.field_profile_full_name || "";
+    var field_profile_full_name = args.field_profile_full_name || "Name Unknown";
     var field_photo = args.field_photo || "";
-    var field_photo_local = args.field_photo_local || "";
+    var field_profile_location = args.field_profile_location || "Location Unknown";
     $.row.uid = uid;
     $.row.field_profile_full_name = field_profile_full_name;
     $.row.field_photo = field_photo;
     $.titleLabel.text = field_profile_full_name;
-    $.thumb.image = "" != field_photo_local ? field_photo_local : field_photo;
+    $.subTitleLabel.text = field_profile_location;
+    $.thumb.image = field_photo;
     _.extend($, exports);
 }
 

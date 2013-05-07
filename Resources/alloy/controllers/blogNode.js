@@ -56,10 +56,13 @@ function Controller() {
     var nid = args.nid || "";
     var title = args.title || "";
     var body = args.body || "";
+    var author = args.author || "";
     var bComments = Ti.UI.createButton({
         title: "Comments"
     });
-    bComments.addEventListener("click", function() {});
+    bComments.addEventListener("click", function() {
+        alert("This will open comments");
+    });
     win.rightNavButton = bComments;
     var firstTime = true;
     var isUpdating = false;
@@ -72,13 +75,16 @@ function Controller() {
         } else populate(); else populate();
     };
     var populate = function() {
-        view.setHtml("<h1>" + title + "</h1>" + body);
+        view.setHtml("<h1>" + title + "</h1><h4>" + author + "</h4>" + body);
         var node_data_string = Alloy.Globals.db.getValueByKey("blog_data_node_" + nid);
         if ("" != node_data_string) {
             var node_data = JSON.parse(node_data_string);
             var total_comments_string = node_data.comment;
             var total_comments = parseInt(total_comments_string);
-            total_comments > 0;
+            if (total_comments > 0) {
+                bComments.title = "Comments (" + total_comments + ")";
+                alert("Updated comments button");
+            }
         }
         firstTime = false;
     };
