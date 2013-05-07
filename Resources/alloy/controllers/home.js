@@ -63,16 +63,13 @@ function Controller() {
     var init = function() {
         Ti.API.info("[pastors][init]");
         if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_home_tab")) {
-            if (firstTime) {
-                firstTime = false;
-                $.hang.show();
-            }
+            firstTime && populate();
             updateFromNetwork();
         } else populate(); else populate();
     };
     var populate = function() {
         var home_html = Alloy.Globals.db.getValueByKey("home_html");
-        if ("" == home_html) {
+        if ("" == home_html) if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
@@ -82,35 +79,37 @@ function Controller() {
             $.hang.hide();
             view.setHtml(home_html);
         }
+        firstTime = false;
     };
     var updateFromNetwork = function() {
-        Ti.API.info("[home][updateFromNetwork]");
-        isUpdating = true;
-        var xhr = Titanium.Network.createHTTPClient();
-        var url = Alloy.Globals.REST_PATH + "node/9" + ".json";
-        Ti.API.info("[home][refresh] url = " + url);
-        xhr.open("GET", url);
-        xhr.onload = function() {
-            Ti.API.info("[onload]");
-            var statusCode = xhr.status;
-            if (200 == statusCode) {
-                var response = xhr.responseText;
-                var data = JSON.parse(response);
-                var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="../../styles/styles.css" type="text/css" /></head><body><div class="webview">';
-                bodyHtml = bodyHtml + "<h1>" + data.title + "</h1>" + data.body.und[0].value;
-                bodyHtml += "</div></body></html>";
-                Alloy.Globals.db.updateValueByKey(bodyHtml, "home_html");
-                populate();
-                Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_home_tab");
-                now = null;
-                isUpdating = false;
-            } else handleError();
-        };
-        xhr.onerror = function() {
-            handleError();
-        };
-        now = new Date();
-        xhr.send();
+        if (!isUpdating) {
+            isUpdating = true;
+            var xhr = Titanium.Network.createHTTPClient();
+            var url = Alloy.Globals.REST_PATH + "node/9" + ".json";
+            Ti.API.info("[home][refresh] url = " + url);
+            xhr.open("GET", url);
+            xhr.onload = function() {
+                Ti.API.info("[onload]");
+                var statusCode = xhr.status;
+                if (200 == statusCode) {
+                    var response = xhr.responseText;
+                    var data = JSON.parse(response);
+                    var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="../../styles/styles.css" type="text/css" /></head><body><div class="webview">';
+                    bodyHtml = bodyHtml + "<h1>" + data.title + "</h1>" + data.body.und[0].value;
+                    bodyHtml += "</div></body></html>";
+                    Alloy.Globals.db.updateValueByKey(bodyHtml, "home_html");
+                    populate();
+                    Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_home_tab");
+                    now = null;
+                    isUpdating = false;
+                } else handleError();
+            };
+            xhr.onerror = function() {
+                handleError();
+            };
+            now = new Date();
+            xhr.send();
+        }
     };
     var handleError = function() {
         isUpdating = false;

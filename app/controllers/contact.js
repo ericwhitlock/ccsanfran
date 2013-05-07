@@ -12,8 +12,7 @@ var init = function(){
 	if(Ti.Network.online){
 		if(Alloy.Globals.shouldUpdate('last_update_contact_tab')){
 			if(firstTime){
-				firstTime = false;
-				$.hang.show();
+				populate();
 			}
 			updateFromNetwork();
 		}else{
@@ -30,9 +29,13 @@ var populate = function(){
 	var contact_data_string = Alloy.Globals.db.getValueByKey('contact_json');
 	
 	if(contact_data_string == ''){
-		$.tryAgain.visible = true;
-		$.errorLabel.visible = true;
-		$.hang.hide();
+		if(firstTime){
+			$.hang.show();
+		}else{
+			$.tryAgain.visible = true;
+			$.errorLabel.visible = true;
+			$.hang.hide();
+		}
 	}else{
 		$.tryAgain.visible = false;
 		$.errorLabel.visible = false;
@@ -44,6 +47,7 @@ var populate = function(){
 		bodyHtml = bodyHtml + '</div></body></html>';
 		view.setHtml(bodyHtml);
 	}
+	firstTime = false;
 };
 
 var updateFromNetwork = function(){

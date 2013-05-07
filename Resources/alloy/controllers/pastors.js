@@ -12,12 +12,12 @@ function Controller() {
                 rows.push(row);
             }
             $.tv.setData(rows);
-        } else {
-            $.hang.hide();
+        } else if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
         }
+        firstTime = false;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -89,47 +89,40 @@ function Controller() {
     var init = function() {
         Ti.API.info("[pastors][init]");
         if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_pastors_tab")) {
-            if (firstTime) {
-                firstTime = false;
-                $.hang.show();
-            }
+            firstTime && populateTable();
             updateFromNetwork();
         } else populateTable(); else populateTable();
     };
     var updateFromNetwork = function() {
-        isUpdating = true;
-        var url = Alloy.Globals.SITE_PATH + "pastors/api/json";
-        Ti.API.info("[pastors][updateFromNetwork] url = " + url);
-        var xhr = Titanium.Network.createHTTPClient({
-            timeout: 2e4
-        });
-        xhr.open("GET", url);
-        xhr.onerror = function() {
-            handleError();
-        };
-        xhr.onload = function() {
-            var statusCode = xhr.status;
-            if (200 == statusCode) {
-                var response = xhr.responseText;
-                var result = JSON.parse(response);
-                var results = new Array();
-                for (var key in result) {
-                    var data = result[key];
-                    Alloy.Globals.db.addPastor(data);
-                    results[key] = {
-                        title: data.field_profile_full_name,
-                        hasChild: true,
-                        uid: data.uid
-                    };
-                }
-                populateTable();
-                Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_pastors_tab");
-                now = null;
-                isUpdating = false;
-            } else handleError();
-        };
-        now = new Date();
-        xhr.send();
+        if (!isUpdating) {
+            isUpdating = true;
+            var url = Alloy.Globals.SITE_PATH + "pastors/api/json";
+            Ti.API.info("[pastors][updateFromNetwork] url = " + url);
+            var xhr = Titanium.Network.createHTTPClient({
+                timeout: 2e4
+            });
+            xhr.open("GET", url);
+            xhr.onerror = function() {
+                handleError();
+            };
+            xhr.onload = function() {
+                var statusCode = xhr.status;
+                if (200 == statusCode) {
+                    var response = xhr.responseText;
+                    var result = JSON.parse(response);
+                    for (var key in result) {
+                        var data = result[key];
+                        Alloy.Globals.db.addPastor(data);
+                    }
+                    populateTable();
+                    Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_pastors_tab");
+                    now = null;
+                    isUpdating = false;
+                } else handleError();
+            };
+            now = new Date();
+            xhr.send();
+        }
     };
     var onTableClick = function(e) {
         var node = Alloy.createController("pastorNode", {

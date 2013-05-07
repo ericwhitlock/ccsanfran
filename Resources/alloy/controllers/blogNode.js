@@ -55,19 +55,24 @@ function Controller() {
     var args = arguments[0] || {};
     var nid = args.nid || "";
     var title = args.title || "";
-    win.title = title;
+    var body = args.body || "";
+    var bComments = Ti.UI.createButton({
+        title: "Comments"
+    });
+    bComments.addEventListener("click", function() {});
+    win.rightNavButton = bComments;
+    var firstTime = true;
     var isUpdating = false;
     var now;
     var init = function() {
         Ti.API.info("[blog][init]");
         if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_blog_node_" + nid)) {
-            populate();
+            firstTime && populate();
             updateFromNetwork();
         } else populate(); else populate();
     };
     var populate = function() {
-        var blogNode = Alloy.Globals.blogs[nid];
-        "" != blogNode && blogNode ? view.setHtml("<br/><br/><br/>" + blogNode.body) : $.tryAgain.visible = true;
+        view.setHtml("<h1>" + title + "</h1>" + body);
         var node_data_string = Alloy.Globals.db.getValueByKey("blog_data_node_" + nid);
         if ("" != node_data_string) {
             var node_data = JSON.parse(node_data_string);
@@ -75,31 +80,34 @@ function Controller() {
             var total_comments = parseInt(total_comments_string);
             total_comments > 0;
         }
+        firstTime = false;
     };
     var updateFromNetwork = function() {
-        isUpdating = true;
-        var url = Alloy.Globals.REST_PATH + "node/" + nid + ".json";
-        var xhr = Titanium.Network.createHTTPClient();
-        xhr.open("GET", url);
-        xhr.onerror = function() {
-            handleError();
-        };
-        xhr.onload = function() {
-            var statusCode = xhr.status;
-            if (200 == statusCode) {
-                var response = xhr.responseText;
-                Alloy.Globals.db.updateValueByKey(response, "blog_data_node_" + nid);
-                populate();
-                Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_node_" + nid);
-                isUpdating = false;
-                now = null;
-            } else handleError();
-        };
-        now = new Date();
-        xhr.send();
+        if (!isUpdating) {
+            isUpdating = true;
+            var url = Alloy.Globals.REST_PATH + "node/" + nid + ".json";
+            var xhr = Titanium.Network.createHTTPClient();
+            xhr.open("GET", url);
+            xhr.onerror = function() {
+                handleError();
+            };
+            xhr.onload = function() {
+                var statusCode = xhr.status;
+                if (200 == statusCode) {
+                    var response = xhr.responseText;
+                    Alloy.Globals.db.updateValueByKey(response, "blog_data_node_" + nid);
+                    populate();
+                    Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_node_" + nid);
+                    isUpdating = false;
+                    now = null;
+                } else handleError();
+            };
+            now = new Date();
+            xhr.send();
+        }
     };
     var handleError = function() {
-        $.errorLabel.visible;
+        isUpdating = false;
     };
     var tryAgain = function() {
         $.tryAgain.visible = false;

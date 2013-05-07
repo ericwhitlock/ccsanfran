@@ -11,12 +11,11 @@
 Alloy.Globals.REST_PATH = 'http://poimen.enjoycreativity.com/api/rest/';
 Alloy.Globals.SITE_PATH = 'http://poimen.enjoycreativity.com/';
 
+Alloy.Globals.MAX_BLOGS = 5;
+Alloy.Globals.blogsShowingIndex = 0;
+
 var _database = require('db');
 Alloy.Globals.db = new _database();
-
-Alloy.Globals.blogs = {
-	'-1':{nid:-99999, body:'Example', title:'My Title', changed:'03/30/2013 - 01:48'}
-}
 
 // This will check to see if we need to check for an update from the network
 Alloy.Globals.shouldUpdate = function(key, minutes){

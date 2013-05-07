@@ -6,7 +6,8 @@ function Controller() {
     var exports = {};
     $.__views.row = Ti.UI.createTableViewRow({
         id: "row",
-        height: "50"
+        height: "50",
+        hasChild: "true"
     });
     $.__views.row && $.addTopLevelView($.__views.row);
     $.__views.thumb = Ti.UI.createImageView({
@@ -21,6 +22,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
+        color: "#000000",
         id: "titleLabel",
         left: "63"
     });

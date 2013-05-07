@@ -10,9 +10,15 @@ exports.window = win;
 var args = arguments[0] || {};
 var nid = args.nid || '';
 var title = args.title || '';
+var body = args.body || '';
 
+var bComments = Ti.UI.createButton({title:'Comments'});
+bComments.addEventListener('click', function(e){
+	
+});
+win.rightNavButton = bComments;
 
-win.title = title;
+var firstTime = true;
 var isUpdating = false;
 var now;
 
@@ -22,7 +28,10 @@ var init = function(){
 	
 	if(Ti.Network.online){
 		if(Alloy.Globals.shouldUpdate('last_update_blog_node_' + nid)){
-			populate();
+			if(firstTime){
+				populate();
+			}
+			
 			updateFromNetwork();
 		}else{
 			populate();
@@ -35,12 +44,7 @@ var init = function(){
 };
 
 var populate = function(){
-	var blogNode = Alloy.Globals.blogs[nid];
-	if(blogNode == '' || !blogNode){
-		$.tryAgain.visible = true;
-	}else{
-		view.setHtml('<br/><br/><br/>' + blogNode.body);
-	}
+	view.setHtml('<h1>' + title + '</h1>' + body);
 	
 	var node_data_string = Alloy.Globals.db.getValueByKey('blog_data_node_' + nid);
 	if(node_data_string != ''){
@@ -53,55 +57,57 @@ var populate = function(){
 		}
 	}
 	
-	
+	firstTime = false;
 };
 
 var updateFromNetwork = function(){
-	isUpdating = true;
+	if(!isUpdating){
+		isUpdating = true;
 	
-	// Define the url which contains the full url
-	// See how we build the url using the win.nid which is 
-	// the nid property we pass to this file when we create the window
-	var url = Alloy.Globals.REST_PATH + 'node/' + nid + '.json';
-	
-	// Create a connection inside the variable xhr
-	var xhr = Titanium.Network.createHTTPClient();
-	
-	// Open the xhr
-	xhr.open("GET",url);
-	
-	xhr.onerror = function(){
-		handleError();
-	};
-	
-	// When the xhr loads we do:
-	xhr.onload = function() {
-		// Save the status of the xhr in a variable
-		// this will be used to see if we have a xhr (200) or not
-		var statusCode = xhr.status;
+		// Define the url which contains the full url
+		// See how we build the url using the win.nid which is 
+		// the nid property we pass to this file when we create the window
+		var url = Alloy.Globals.REST_PATH + 'node/' + nid + '.json';
 		
-		// Check if we have a xhr
-		if(statusCode == 200) {
-			// Save the responseText from the xhr in the response variable
-			var response = xhr.responseText;
-			
-			Alloy.Globals.db.updateValueByKey(response, 'blog_data_node_' + nid);
-			populate();
-			Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_node_' + nid);
-			isUpdating = false;
-			now = null;
-		} 
-		else {
+		// Create a connection inside the variable xhr
+		var xhr = Titanium.Network.createHTTPClient();
+		
+		// Open the xhr
+		xhr.open("GET",url);
+		
+		xhr.onerror = function(){
 			handleError();
+		};
+		
+		// When the xhr loads we do:
+		xhr.onload = function() {
+			// Save the status of the xhr in a variable
+			// this will be used to see if we have a xhr (200) or not
+			var statusCode = xhr.status;
+			
+			// Check if we have a xhr
+			if(statusCode == 200) {
+				// Save the responseText from the xhr in the response variable
+				var response = xhr.responseText;
+				
+				Alloy.Globals.db.updateValueByKey(response, 'blog_data_node_' + nid);
+				populate();
+				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_node_' + nid);
+				isUpdating = false;
+				now = null;
+			} 
+			else {
+				handleError();
+			}
 		}
+		
+		now = new Date();
+		xhr.send();
 	}
-	
-	now = new Date();
-	xhr.send();
 };
 
 var handleError = function(){
-	$.errorLabel.visible;
+	isUpdating = false;
 };
 
 var tryAgain = function(){

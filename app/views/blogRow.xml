@@ -1,0 +1,7 @@
+<Alloy>
+	<TableViewRow id="row" height="84" hasChild="true">
+		<Label id="titleLabel" left="10" right="12" height="38" top="2"></Label>
+		<Label id="subTitleLabel" left="10" right="12" height="18" top="42"></Label>
+		<Label id="dateLabel" left="10" right="12" height="18" top="62"></Label>
+	</TableViewRow>
+</Alloy>

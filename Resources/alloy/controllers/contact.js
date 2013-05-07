@@ -62,16 +62,13 @@ function Controller() {
     var init = function() {
         Ti.API.info("[pastors][init]");
         if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_contact_tab")) {
-            if (firstTime) {
-                firstTime = false;
-                $.hang.show();
-            }
+            firstTime && populate();
             updateFromNetwork();
         } else populate(); else populate();
     };
     var populate = function() {
         var contact_data_string = Alloy.Globals.db.getValueByKey("contact_json");
-        if ("" == contact_data_string) {
+        if ("" == contact_data_string) if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
@@ -85,6 +82,7 @@ function Controller() {
             bodyHtml += "</div></body></html>";
             view.setHtml(bodyHtml);
         }
+        firstTime = false;
     };
     var updateFromNetwork = function() {
         var url = Alloy.Globals.REST_PATH + "node/5" + ".json";

@@ -58,7 +58,7 @@ function Controller() {
     var Alloy = require("alloy");
     $.nav;
     $.blogWin;
-    var table = $.tv;
+    $.tv;
     var tab = null;
     var now;
     var isUpdating = false;
@@ -69,10 +69,7 @@ function Controller() {
     var init = function() {
         Ti.API.info("[blog][init]");
         if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_blog_tab")) {
-            if (firstTime) {
-                firstTime = false;
-                $.hang.show();
-            }
+            firstTime && populateTable();
             updateFromNetwork();
         } else populateTable(); else populateTable();
     };
@@ -96,11 +93,6 @@ function Controller() {
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_tab");
                     isUpdating = false;
                     now = null;
-                    var arr = JSON.parse(response);
-                    for (var i = 0; arr.length > i; i++) {
-                        var nid = arr[i].nid.toString();
-                        Alloy.Globals.blogs[nid] = arr[i];
-                    }
                 } else handleError();
             };
             now = new Date();
@@ -109,7 +101,7 @@ function Controller() {
     };
     var populateTable = function() {
         var blogJSON = Alloy.Globals.db.getValueByKey("blog_json");
-        if ("" == blogJSON) {
+        if ("" == blogJSON) if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
@@ -117,14 +109,26 @@ function Controller() {
             $.hang.hide();
             $.tryAgain.visible = false;
             $.errorLabel.visible = false;
-            var arr = JSON.parse(blogJSON);
-            table.setData(arr);
+            var blogCollection = JSON.parse(blogJSON);
+            var i_start = Alloy.Globals.blogsShowingIndex;
+            var i_end = blogCollection.length;
+            blogCollection > Alloy.Globals.MAX_BLOGS && (i_end = Alloy.Globals.blogsShowingIndex + Alloy.Globals.MAX_BLOGS);
+            var rows = [];
+            for (var i = i_start; i_end > i; i++) {
+                var data = blogCollection[i];
+                var row = Alloy.createController("blogRow", data).getView();
+                rows.push(row);
+                Alloy.Globals.blogsShowingIndex = i;
+            }
+            $.tv.setData(rows);
         }
+        firstTime = false;
     };
     var onTableClick = function(e) {
         var node = Alloy.createController("blogNode", {
             nid: e.rowData.nid,
-            title: e.rowData.title
+            title: e.rowData._title,
+            body: e.rowData.body
         });
         tab.open(node.window);
     };

@@ -16,7 +16,18 @@
 }
 
 "#titleLabel":{
-	font:{fontWeight:"bold", fontSize:17}
+	font:{fontWeight:"bold", fontSize:17},
+	color:"#000000"
+}
+
+"#subTitleLabel":{
+	font:{fontWeight:"normal", fontSize:14},
+	color:"#666666"
+}
+
+"#dateLabel":{
+	font:{fontWeight:"normal", fontSize:14},
+	color:"#666666"
 }
 
 "#errorLabel":{

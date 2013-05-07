@@ -7,6 +7,7 @@ var tab = null;
 var now;
 var isUpdating = false;
 var firstTime = true;
+var changed = false;
 
 exports.setParentTab = function(pTab){
 	tab = pTab;
@@ -19,8 +20,7 @@ var init = function(){
 	if(Ti.Network.online){
 		if(Alloy.Globals.shouldUpdate('last_update_blog_tab')){
 			if(firstTime){
-				firstTime = false;
-				$.hang.show();
+				populateTable();
 			}
 			updateFromNetwork();
 		}else{
@@ -59,12 +59,6 @@ var updateFromNetwork = function(){
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_tab');
 				isUpdating = false;
 				now = null;
-				
-				var arr = JSON.parse(response);
-				for(var i=0; i < arr.length; i++){
-					var nid = arr[i].nid.toString();
-					Alloy.Globals.blogs[nid] = arr[i];
-				}
 			}
 			else {
 				// Create a label for the node title
@@ -77,23 +71,52 @@ var updateFromNetwork = function(){
 	}
 }
 
+
 var populateTable = function(){
 	var blogJSON = Alloy.Globals.db.getValueByKey('blog_json');
 	if(blogJSON == ''){
-		$.tryAgain.visible = true;
-		$.errorLabel.visible = true;
-		$.hang.hide();
+		if(firstTime){
+			$.hang.show();
+		}else{
+			$.tryAgain.visible = true;
+			$.errorLabel.visible = true;
+			$.hang.hide();
+		}
 	}else{
 		$.hang.hide();
 		$.tryAgain.visible = false;
 		$.errorLabel.visible = false;
-		var arr = JSON.parse(blogJSON);
-		table.setData(arr);
+		
+		if(firstTime || changed){
+			var blogCollection = JSON.parse(blogJSON);
+			var i_start = Alloy.Globals.blogsShowingIndex;
+			var i_end = blogCollection.length;
+			if(blogCollection > Alloy.Globals.MAX_BLOGS){
+				i_end = Alloy.Globals.blogsShowingIndex + Alloy.Globals.MAX_BLOGS;
+			}
+			var rows = [];
+	    	for (var i = i_start; i < i_end; i++) {
+		        var data = blogCollection[i];
+		        var row = Alloy.createController('blogRow', data).getView();
+		        rows.push(row);
+		        Alloy.Globals.blogsShowingIndex = i;
+		    }
+		 	
+		 	if(i_end < blogCollection.length){
+		 		var row = Ti.UI.createTableViewRow({nid:'show_more', title:'Show more blogs!'});
+		 		rows.push(row);
+		 	}
+		 	
+		    $.tv.setData(rows);
+		}
+		
 	}
+	firstTime = false;
+	changed = false;
 };
 
 var onTableClick = function(e){
-	var node = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData.title});
+	var node = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData._title, body:e.rowData.body});
 	
 	tab.open(node.window);
 };
