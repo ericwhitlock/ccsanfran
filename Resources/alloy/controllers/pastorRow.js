@@ -42,9 +42,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     require("alloy");
-    var win = $.win;
-    $.web;
-    exports.window = win;
     var args = arguments[0] || {};
     var uid = args.uid || "";
     var field_profile_full_name = args.field_profile_full_name || "Name Unknown";

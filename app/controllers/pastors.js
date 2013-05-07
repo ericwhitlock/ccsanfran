@@ -115,8 +115,8 @@ var updateFromNetwork = function(){
 };
 
 var onTableClick = function(e){
-	var node = Alloy.createController('pastorNode', {uid: e.rowData.uid, title:e.rowData.field_profile_full_name, image:e.rowData.field_photo});
-	tab.open(node.window,{animated:true});
+	var win = Alloy.createController('pastorNode', {uid: e.rowData.uid, title:e.rowData.field_profile_full_name, image:e.rowData.field_photo}).getView();
+	tab.open(win,{animated:true});
 };
 
 var handleError = function(){

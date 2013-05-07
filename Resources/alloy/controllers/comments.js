@@ -8,8 +8,8 @@ function Controller() {
     $.__views.win = Ti.UI.createWindow({
         backgroundColor: "#DDDDDD",
         barColor: "#999999",
-        id: "win",
-        title: "Contact"
+        title: "Comments",
+        id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
@@ -49,73 +49,28 @@ function Controller() {
     $.__views.hang = Ti.UI.createActivityIndicator({
         style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
         id: "hang",
-        message: "Almost there!"
+        message: "Hang in there!"
     });
     $.__views.win.add($.__views.hang);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    var Alloy = require("alloy");
+    require("alloy");
     $.win;
-    var view = $.web;
-    var now;
-    var firstTime = true;
+    $.web;
     var isUpdating = false;
+    var args = arguments[0] || {};
+    args.tab || "";
+    args.nid || "";
     var init = function() {
-        Ti.API.info("[pastors][init]");
-        if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_contact_tab")) {
-            firstTime && populate();
-            updateFromNetwork();
-        } else populate(); else populate();
+        Ti.API.info("[comments][init]");
+        Ti.Network.online ? updateFromNetwork() : populate();
     };
-    var populate = function() {
-        var contact_data_string = Alloy.Globals.db.getValueByKey("contact_json");
-        if ("" == contact_data_string) if (firstTime) $.hang.show(); else {
-            $.tryAgain.visible = true;
-            $.errorLabel.visible = true;
-            $.hang.hide();
-        } else {
-            $.tryAgain.visible = false;
-            $.errorLabel.visible = false;
-            $.hang.hide();
-            var contact_data = JSON.parse(contact_data_string);
-            var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="styles.css" type="text/css" /></head><body><div class="webview">';
-            bodyHtml = bodyHtml + "<h1>" + contact_data.title + "</h1>" + contact_data.body.und[0].value;
-            bodyHtml += "</div></body></html>";
-            view.setHtml(bodyHtml);
-        }
-        firstTime = false;
-    };
-    var updateFromNetwork = function() {
-        if (!isUpdating) {
-            isUpdating = true;
-            var url = Alloy.Globals.REST_PATH + "node/5" + ".json";
-            var xhr = Titanium.Network.createHTTPClient();
-            xhr.open("GET", url);
-            xhr.onerror = function() {
-                handleError();
-            };
-            xhr.onload = function() {
-                var statusCode = xhr.status;
-                if (200 == statusCode) {
-                    var response = xhr.responseText;
-                    Alloy.Globals.db.updateValueByKey(response, "contact_json");
-                    Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_contact_tab");
-                    populate();
-                    isUpdating = false;
-                } else handleError();
-            };
-            now = new Date();
-            xhr.send();
-        }
-    };
-    var handleError = function() {
-        isUpdating = false;
-        populate();
-    };
+    var populate = function() {};
+    var updateFromNetwork = function() {};
     var tryAgain = function() {
-        $.hang.show();
         $.tryAgain.visible = false;
         $.errorLabel.visible = false;
+        $.hang.show();
         isUpdating = false;
         updateFromNetwork();
     };

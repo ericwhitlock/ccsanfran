@@ -6,8 +6,6 @@ var now;
 var isUpdating = false;
 var firstTime = true;
 
-// Public Vars
-exports.window = win;
 
 // Passed Arguments
 var args = arguments[0] || {};

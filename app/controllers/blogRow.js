@@ -1,11 +1,5 @@
 var Alloy = require('alloy');
 
-var win = $.win;
-var view = $.web;
-
-// Public Vars
-exports.window = win;
-
 // Passed Arguments
 var args = arguments[0] || {};
 var nid = args.nid || '';

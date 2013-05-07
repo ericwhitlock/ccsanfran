@@ -146,13 +146,14 @@ function Controller() {
             Alloy.Globals.blogsShowingIndex++;
             populateTable();
         } else {
-            var node = Alloy.createController("blogNode", {
+            var win = Alloy.createController("blogNode", {
                 nid: e.rowData.nid,
                 title: e.rowData._title,
                 body: e.rowData.body,
-                author: e.rowData.author
-            });
-            tab.open(node.window);
+                author: e.rowData.author,
+                tab: tab
+            }).getView();
+            tab.open(win);
         }
     };
     var handleError = function() {

@@ -56,6 +56,7 @@ var updateFromNetwork = function(){
 				var response = xhr.responseText;
 				
 				Alloy.Globals.db.updateValueByKey(response, 'blog_json');
+				Alloy.Globals.blogsShowingIndex = 0;
 				changed = true;
 				populateTable();
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_tab');
@@ -128,8 +129,8 @@ var onTableClick = function(e){
 		Alloy.Globals.blogsShowingIndex++;
 		populateTable();
 	}else{
-		var node = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData._title, body:e.rowData.body, author:e.rowData.author});
-		tab.open(node.window);
+		var win = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData._title, body:e.rowData.body, author:e.rowData.author, tab:tab}).getView();
+		tab.open(win);
 	}
 };
 

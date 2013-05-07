@@ -52,9 +52,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     require("alloy");
-    var win = $.win;
-    $.web;
-    exports.window = win;
     var args = arguments[0] || {};
     var nid = args.nid || "";
     var title = args.title || "";

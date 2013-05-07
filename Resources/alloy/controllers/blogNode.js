@@ -51,17 +51,22 @@ function Controller() {
     var Alloy = require("alloy");
     var win = $.win;
     var view = $.web;
-    exports.window = win;
     var args = arguments[0] || {};
+    var tab = args.tab || "";
     var nid = args.nid || "";
     var title = args.title || "";
     var body = args.body || "";
     var author = args.author || "";
+    win.title = title;
     var bComments = Ti.UI.createButton({
         title: "Comments"
     });
     bComments.addEventListener("click", function() {
-        alert("This will open comments");
+        var win = Alloy.createController("comments", {
+            nid: nid,
+            tab: tab
+        }).getView();
+        tab.open(win);
     });
     win.rightNavButton = bComments;
     var firstTime = true;
@@ -81,10 +86,7 @@ function Controller() {
             var node_data = JSON.parse(node_data_string);
             var total_comments_string = node_data.comment;
             var total_comments = parseInt(total_comments_string);
-            if (total_comments > 0) {
-                bComments.title = "Comments (" + total_comments + ")";
-                alert("Updated comments button");
-            }
+            total_comments > 0 && (bComments.title = "Comments (" + total_comments + ")");
         }
         firstTime = false;
     };

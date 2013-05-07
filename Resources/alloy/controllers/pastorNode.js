@@ -59,7 +59,6 @@ function Controller() {
     var view = $.web;
     var isUpdating = false;
     var firstTime = true;
-    exports.window = win;
     var args = arguments[0] || {};
     var uid = args.uid || "";
     var image = args.image || "";

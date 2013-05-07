@@ -3,19 +3,20 @@ var Alloy = require('alloy');
 var win = $.win;
 var view = $.web;
 
-// Public Vars
-exports.window = win;
-
 // Passed Arguments
 var args = arguments[0] || {};
+var tab = args.tab || '';
 var nid = args.nid || '';
 var title = args.title || '';
 var body = args.body || '';
 var author = args.author || '';
 
+win.title = title;
+
 var bComments = Ti.UI.createButton({title:'Comments'});
 bComments.addEventListener('click', function(e){
-	alert('This will open comments');
+	var win = Alloy.createController('comments', {nid:nid, tab:tab}).getView();
+	tab.open(win);
 });
 win.rightNavButton = bComments;
 
