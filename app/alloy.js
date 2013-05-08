@@ -10,15 +10,6 @@
 //
 Alloy.Globals.REST_PATH = 'http://poimen.enjoycreativity.com/api/rest/';
 Alloy.Globals.SITE_PATH = 'http://poimen.enjoycreativity.com/';
-
-
-// Yellow theme
-Alloy.Globals.TITLE_LABEL_COLOR = '#d15941';
-Alloy.Globals.HTML_STYLE = 	'h1{color:#d15941;font-size:22;font-family:Helvetica;} ' 
-						+	'h4{color:#516a0f;font-size:18;font-family:Helvetica;} '
-						+	'p{color:#74701e;font-size:15;font-family:Helvetica;} '; 
-
-
 Alloy.Globals.MAX_BLOGS = 20;
 Alloy.Globals.blogsShowingIndex = 0;
 
@@ -54,3 +45,32 @@ Alloy.Globals.shouldUpdate = function(key, minutes){
 Alloy.Globals.alertNoConnection = function(){
 	alert('No internet connection detected.');
 };
+
+
+
+//===================================
+// Style Themes
+//
+// Only leave one theme uncommented
+//===================================
+
+//===============
+// Yellow Theme
+//===============
+
+Alloy.Globals.TITLE_LABEL_COLOR = '#d15941';
+Alloy.Globals.HTML_STYLE = 	'h1{color:#d15941;font-size:22;font-family:Helvetica;} ' 
+						+	'h4{color:#516a0f;font-size:18;font-family:Helvetica;} '
+						+	'p{color:#74701e;font-size:15;font-family:Helvetica;} '; 
+
+//===============
+// Gray Theme
+//===============
+/*
+Alloy.Globals.TITLE_LABEL_COLOR = '#000000';
+Alloy.Globals.HTML_STYLE = 	'h1{color:#000000;font-size:22;font-family:Helvetica;} ' 
+						+	'h4{color:#333333;font-size:18;font-family:Helvetica;} '
+						+	'p{color:#666666;font-size:15;font-family:Helvetica;} '; 
+*/					
+
+
