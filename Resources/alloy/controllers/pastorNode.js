@@ -41,7 +41,7 @@ function Controller() {
     };
     win.title = pastorObject.field_profile_full_name ? pastorObject.field_profile_full_name : "";
     var bBio = Ti.UI.createButton({
-        title: "Bio"
+        title: Alloy.isTablet ? "Biography" : "Bio"
     });
     bBio.addEventListener("click", function() {
         var win = Alloy.createController("biography", {

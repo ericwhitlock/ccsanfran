@@ -14,7 +14,7 @@ var pastorObject = args.pastorObject || {field_profile_full_name:'', field_photo
 
 win.title = (pastorObject.field_profile_full_name) ? pastorObject.field_profile_full_name : '';
 
-var bBio = Ti.UI.createButton({title:'Bio'});
+var bBio = Ti.UI.createButton({title:Alloy.isTablet ? 'Biography' : 'Bio'});
 bBio.addEventListener('click', function(e){
 	var win = Alloy.createController('biography', {pastorObject:pastorObject, tab:tab}).getView();
 	tab.open(win);
