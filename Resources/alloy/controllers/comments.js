@@ -6,8 +6,8 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#DDDDDD",
-        barColor: "#999999",
+        backgroundColor: "#f6e18e",
+        barColor: "#e2b958",
         title: "Comments",
         id: "win"
     });
@@ -28,8 +28,8 @@ function Controller() {
     $.__views.win.add($.__views.errorLabel);
     $.__views.tryAgain = Ti.UI.createView({
         borderRadius: 10,
-        borderColor: "#999999",
-        backgroundColor: "#CCCCCC",
+        borderColor: "#a99b43",
+        backgroundColor: "#e2ca72",
         width: 145,
         height: 75,
         id: "tryAgain",
@@ -42,6 +42,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
+        color: "#f09b1e",
         text: "Try again!",
         id: "tryAgainLabel"
     });

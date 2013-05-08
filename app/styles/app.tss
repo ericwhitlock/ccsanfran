@@ -1,10 +1,10 @@
 "Window": {
-	backgroundColor: "#DDDDDD",
-	barColor:"#999999"
+	backgroundColor: "#f6e18e", // was DDDDDD
+	barColor:"#e2b958" // was 999999
 },
 "TableView":{
-	backgroundColor:"#DDDDDD",
-	separatorColor:"CCCCCC"
+	backgroundColor:"#f6e18e", // was DDDDDD
+	separatorColor:"#e0cc5b" // was CCCCCC
 },
 "WebView":{
 	backgroundColor:"transparent",
@@ -17,22 +17,22 @@
 
 "#titleLabel":{
 	font:{fontWeight:"bold", fontSize:17},
-	color:"#000000"
+	color:"#d15941" // was 000000
 }
 
 "#subTitleLabel":{
 	font:{fontWeight:"normal", fontSize:14},
-	color:"#666666"
+	color:"#516a0f" // was 666666
 }
 
 "#subTitleName":{
 	font:{fontWeight:"bold", fontSize:14},
-	color:"#666666"
+	color:"#516a0f" // was 666666
 }
 
 "#dateLabel":{
 	font:{fontWeight:"normal", fontSize:14},
-	color:"#666666"
+	color:"#74701e" // was 666666
 }
 
 "#errorLabel":{
@@ -41,14 +41,15 @@
 
 "#tryAgain":{
 	borderRadius:10,
-	borderColor:"#999999",
-	backgroundColor:"#CCCCCC",
+	borderColor:"#a99b43",// was 999999
+	backgroundColor:"#e2ca72", // was CCCCCC
 	width:145,
 	height:75
 }
 
 "#tryAgainLabel":{
-	font:{fontWeight:"bold", fontSize:17}
+	font:{fontWeight:"bold", fontSize:17},
+	color:'#f09b1e' // was 000000
 }
 
 

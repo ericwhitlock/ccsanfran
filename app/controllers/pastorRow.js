@@ -1,16 +1,10 @@
 var Alloy = require('alloy');
 
 // Passed Arguments
-var args = arguments[0] || {};
-var uid = args.uid || '';
-var field_profile_full_name = args.field_profile_full_name || 'Name Unknown';
-var field_photo = args.field_photo || '';
-var field_profile_location = args.field_profile_location || 'Location Unknown';
+var pastorObject = arguments[0] || {field_profile_full_name:'', field_profile_location:'', field_photo:''};
 
-$.row.uid = uid;
-$.row.field_profile_full_name = field_profile_full_name;
-$.row.field_photo = field_photo;
+$.row.pastorObject = pastorObject;
 
-$.titleLabel.text = field_profile_full_name;
-$.subTitleLabel.text = field_profile_location;
-$.thumb.image = field_photo;
+$.titleLabel.text = pastorObject.field_profile_full_name;
+$.subTitleLabel.text = pastorObject.field_profile_location;
+$.thumb.image = pastorObject.field_photo;

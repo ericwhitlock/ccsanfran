@@ -15,7 +15,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
-        color: "#000000",
+        color: "#d15941",
         id: "titleLabel",
         left: "10",
         right: "12",
@@ -28,7 +28,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 14
         },
-        color: "#666666",
+        color: "#516a0f",
         id: "subTitleName",
         left: "10",
         right: "12",
@@ -41,7 +41,7 @@ function Controller() {
             fontWeight: "normal",
             fontSize: 14
         },
-        color: "#666666",
+        color: "#74701e",
         id: "dateLabel",
         left: "10",
         right: "12",

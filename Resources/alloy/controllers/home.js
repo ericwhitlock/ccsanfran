@@ -6,8 +6,8 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#DDDDDD",
-        barColor: "#999999",
+        backgroundColor: "#f6e18e",
+        barColor: "#e2b958",
         title: "Home",
         id: "win"
     });
@@ -28,8 +28,8 @@ function Controller() {
     $.__views.win.add($.__views.errorLabel);
     $.__views.tryAgain = Ti.UI.createView({
         borderRadius: 10,
-        borderColor: "#999999",
-        backgroundColor: "#CCCCCC",
+        borderColor: "#a99b43",
+        backgroundColor: "#e2ca72",
         width: 145,
         height: 75,
         id: "tryAgain",
@@ -42,6 +42,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
+        color: "#f09b1e",
         text: "Try again!",
         id: "tryAgainLabel"
     });
@@ -68,8 +69,8 @@ function Controller() {
         } else populate(); else populate();
     };
     var populate = function() {
-        var home_html = Alloy.Globals.db.getValueByKey("home_html");
-        if ("" == home_html) if (firstTime) $.hang.show(); else {
+        var home_html_body = Alloy.Globals.db.getValueByKey("home_html_body");
+        if ("" == home_html_body) if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
@@ -77,7 +78,8 @@ function Controller() {
             $.tryAgain.visible = false;
             $.errorLabel.visible = false;
             $.hang.hide();
-            view.setHtml(home_html);
+            var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + home_html_body + "</body></html>";
+            view.setHtml(html);
         }
         firstTime = false;
     };
@@ -94,10 +96,8 @@ function Controller() {
                 if (200 == statusCode) {
                     var response = xhr.responseText;
                     var data = JSON.parse(response);
-                    var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="../../styles/styles.css" type="text/css" /></head><body><div class="webview">';
-                    bodyHtml = bodyHtml + "<h1>" + data.title + "</h1>" + data.body.und[0].value;
-                    bodyHtml += "</div></body></html>";
-                    Alloy.Globals.db.updateValueByKey(bodyHtml, "home_html");
+                    var bodyHtml = "<h1>" + data.title + "</h1>" + data.body.und[0].value;
+                    Alloy.Globals.db.updateValueByKey(bodyHtml, "home_html_body");
                     populate();
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_home_tab");
                     now = null;

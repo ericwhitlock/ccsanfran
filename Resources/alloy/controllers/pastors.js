@@ -29,16 +29,16 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#DDDDDD",
-        barColor: "#999999",
+        backgroundColor: "#f6e18e",
+        barColor: "#e2b958",
         title: "Pastors",
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
     $.__views.tv = Ti.UI.createTableView({
-        backgroundColor: "#DDDDDD",
-        separatorColor: "CCCCCC",
+        backgroundColor: "#f6e18e",
+        separatorColor: "#e0cc5b",
         id: "tv",
         width: Ti.UI.FILL
     });
@@ -53,8 +53,8 @@ function Controller() {
     $.__views.win.add($.__views.errorLabel);
     $.__views.tryAgain = Ti.UI.createView({
         borderRadius: 10,
-        borderColor: "#999999",
-        backgroundColor: "#CCCCCC",
+        borderColor: "#a99b43",
+        backgroundColor: "#e2ca72",
         width: 145,
         height: 75,
         id: "tryAgain",
@@ -67,6 +67,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
+        color: "#f09b1e",
         text: "Try again!",
         id: "tryAgainLabel"
     });
@@ -131,9 +132,8 @@ function Controller() {
     };
     var onTableClick = function(e) {
         var win = Alloy.createController("pastorNode", {
-            uid: e.rowData.uid,
-            title: e.rowData.field_profile_full_name,
-            image: e.rowData.field_photo
+            pastorObject: e.rowData.pastorObject,
+            tab: tab
         }).getView();
         tab.open(win, {
             animated: true

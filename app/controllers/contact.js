@@ -43,10 +43,12 @@ var populate = function(){
 		$.hang.hide();
 		var contact_data = JSON.parse(contact_data_string);
 		
-		var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="styles.css" type="text/css" /></head><body><div class="webview">';
-		bodyHtml = bodyHtml + '<h1>' + contact_data.title + '</h1>' + contact_data.body.und[0].value;
-		bodyHtml = bodyHtml + '</div></body></html>';
-		view.setHtml(bodyHtml);
+		var p1 = contact_data.body.und[0].value.replace(/\r/g, "")
+		var p = p1.replace(/\n/g, "<br/><br/>")
+		var bodyHtml = '<h1>' + contact_data.title + '</h1><p>' + p + '</p>';
+		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+		
+		view.setHtml(html);
 	}
 	
 	firstTime = false;

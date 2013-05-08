@@ -95,7 +95,7 @@ var updateFromNetwork = function(){
 					// Create the data variable and hold every result
 					var data = result[key];
 					
-					Alloy.Globals.db.addPastor(data); // data = {uid, field_profile_full_name, field_photo});
+					Alloy.Globals.db.addPastor(data);
 				}
 				changed = true;
 				populateTable();
@@ -115,7 +115,10 @@ var updateFromNetwork = function(){
 };
 
 var onTableClick = function(e){
-	var win = Alloy.createController('pastorNode', {uid: e.rowData.uid, title:e.rowData.field_profile_full_name, image:e.rowData.field_photo}).getView();
+	var win = Alloy.createController('pastorNode', {
+		pastorObject: e.rowData.pastorObject,
+		tab:tab
+	}).getView();
 	tab.open(win,{animated:true});
 };
 

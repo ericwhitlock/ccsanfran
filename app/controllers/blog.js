@@ -110,7 +110,7 @@ var populateTable = function(){
 		 	rowData = data.slice(0);
 		 	
 		 	if(i_end < blogCollection.length){
-		 		var show_more_row = Ti.UI.createTableViewRow({nid:'show_more', title:'Show more blogs!', height:84});
+		 		var show_more_row = Ti.UI.createTableViewRow({nid:'show_more', title:'Show more blogs!', height:84, color:Alloy.Globals.TITLE_LABEL_COLOR});
 		 		data.push(show_more_row);
 		 	}
 		 	

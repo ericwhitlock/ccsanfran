@@ -6,8 +6,8 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#DDDDDD",
-        barColor: "#999999",
+        backgroundColor: "#f6e18e",
+        barColor: "#e2b958",
         title: "Blog",
         id: "win"
     });
@@ -28,8 +28,8 @@ function Controller() {
     $.__views.win.add($.__views.errorLabel);
     $.__views.tryAgain = Ti.UI.createView({
         borderRadius: 10,
-        borderColor: "#999999",
-        backgroundColor: "#CCCCCC",
+        borderColor: "#a99b43",
+        backgroundColor: "#e2ca72",
         width: 145,
         height: 75,
         id: "tryAgain",
@@ -42,6 +42,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
+        color: "#f09b1e",
         text: "Try again!",
         id: "tryAgainLabel"
     });
@@ -79,8 +80,7 @@ function Controller() {
             updateFromNetwork();
         } else populate(); else populate();
     };
-    var populate = function() {
-        view.setHtml("<h1>" + title + "</h1><h4>" + author + "</h4>" + body);
+    var updateCommentsButton = function() {
         var node_data_string = Alloy.Globals.db.getValueByKey("blog_data_node_" + nid);
         if ("" != node_data_string) {
             var node_data = JSON.parse(node_data_string);
@@ -88,6 +88,13 @@ function Controller() {
             var total_comments = parseInt(total_comments_string);
             total_comments > 0 && (bComments.title = "Comments (" + total_comments + ")");
         }
+    };
+    var populate = function() {
+        body.replace(/\n|\r/g, "<br/><br/>");
+        var html_body = "<h1>" + title + "</h1><h4>" + author + "</h4><p>" + body + "</p>";
+        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + html_body + "</body></html>";
+        view.setHtml(html);
+        updateCommentsButton();
         firstTime = false;
     };
     var updateFromNetwork = function() {
@@ -104,7 +111,7 @@ function Controller() {
                 if (200 == statusCode) {
                     var response = xhr.responseText;
                     Alloy.Globals.db.updateValueByKey(response, "blog_data_node_" + nid);
-                    populate();
+                    updateCommentsButton();
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_node_" + nid);
                     isUpdating = false;
                     now = null;

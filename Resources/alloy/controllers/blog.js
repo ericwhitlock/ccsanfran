@@ -6,16 +6,16 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#DDDDDD",
-        barColor: "#999999",
+        backgroundColor: "#f6e18e",
+        barColor: "#e2b958",
         id: "win",
         title: "Blog"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
     $.__views.tv = Ti.UI.createTableView({
-        backgroundColor: "#DDDDDD",
-        separatorColor: "CCCCCC",
+        backgroundColor: "#f6e18e",
+        separatorColor: "#e0cc5b",
         id: "tv"
     });
     $.__views.win.add($.__views.tv);
@@ -29,8 +29,8 @@ function Controller() {
     $.__views.win.add($.__views.errorLabel);
     $.__views.tryAgain = Ti.UI.createView({
         borderRadius: 10,
-        borderColor: "#999999",
-        backgroundColor: "#CCCCCC",
+        borderColor: "#a99b43",
+        backgroundColor: "#e2ca72",
         width: 145,
         height: 75,
         id: "tryAgain",
@@ -43,6 +43,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
+        color: "#f09b1e",
         text: "Try again!",
         id: "tryAgainLabel"
     });
@@ -91,6 +92,7 @@ function Controller() {
                 if (200 == statusCode) {
                     var response = xhr.responseText;
                     Alloy.Globals.db.updateValueByKey(response, "blog_json");
+                    Alloy.Globals.blogsShowingIndex = 0;
                     changed = true;
                     populateTable();
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_blog_tab");
@@ -130,7 +132,8 @@ function Controller() {
                     var show_more_row = Ti.UI.createTableViewRow({
                         nid: "show_more",
                         title: "Show more blogs!",
-                        height: 84
+                        height: 84,
+                        color: Alloy.Globals.TITLE_LABEL_COLOR
                     });
                     data.push(show_more_row);
                 }

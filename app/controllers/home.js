@@ -27,8 +27,8 @@ var init = function(){
 };
 
 var populate = function(){
-	var home_html = Alloy.Globals.db.getValueByKey('home_html');
-	if(home_html == ''){
+	var home_html_body = Alloy.Globals.db.getValueByKey('home_html_body');
+	if(home_html_body == ''){
 		if(firstTime){
 			$.hang.show();
 		}else{
@@ -40,7 +40,8 @@ var populate = function(){
 		$.tryAgain.visible = false;
 		$.errorLabel.visible = false;
 		$.hang.hide();
-		view.setHtml(home_html);
+		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + home_html_body + '</body></html>';
+		view.setHtml(html);
 	}
 	firstTime = false;
 };
@@ -68,11 +69,9 @@ var updateFromNetwork = function(){
 				// Parse (build data structure) the JSON response into an object (data)
 				var data = JSON.parse(response);
 				
-				var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="../../styles/styles.css" type="text/css" /></head><body><div class="webview">';
-				bodyHtml = bodyHtml + '<h1>' + data.title + '</h1>' + data.body.und[0].value;
-				bodyHtml = bodyHtml + '</div></body></html>';
+				var bodyHtml = '<h1>' + data.title + '</h1>' + data.body.und[0].value;
 				
-				Alloy.Globals.db.updateValueByKey(bodyHtml, 'home_html');
+				Alloy.Globals.db.updateValueByKey(bodyHtml, 'home_html_body');
 				populate();
 				
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_home_tab');
@@ -105,5 +104,3 @@ var tryAgain = function(){
 	isUpdating = false;
 	updateFromNetwork();
 };
-
-
