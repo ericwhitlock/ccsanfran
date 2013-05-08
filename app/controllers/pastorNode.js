@@ -31,15 +31,12 @@ var init = function(){
 };
 
 var populate = function(){
-	var p = pastorObject.field_profile_vision.replace(/\n|\r/g, "<br/><br/>");
-	
 	var spouseHtml = '';
 	if(pastorObject.field_profile_spouse != '' && pastorObject.field_profile_spouse){
 		spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + '</p></div>';
 	}
 	
-	
-	var bodyHtml = '<image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/>' + spouseHtml + '<p>' + p + '</p>';
+	var bodyHtml = '<image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/>' + spouseHtml + '<p>' + pastorObject.field_profile_vision + '</p>';
 	
 	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
 				

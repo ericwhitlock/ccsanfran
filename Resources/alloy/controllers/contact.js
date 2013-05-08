@@ -79,9 +79,7 @@ function Controller() {
             $.errorLabel.visible = false;
             $.hang.hide();
             var contact_data = JSON.parse(contact_data_string);
-            var p1 = contact_data.body.und[0].value.replace(/\r/g, "");
-            var p = p1.replace(/\n/g, "<br/><br/>");
-            var bodyHtml = "<h1>" + contact_data.title + "</h1><p>" + p + "</p>";
+            var bodyHtml = "<h1>" + contact_data.title + "</h1><p>" + contact_data.body.und[0].safe_value + "</p>";
             var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
             view.setHtml(html);
         }

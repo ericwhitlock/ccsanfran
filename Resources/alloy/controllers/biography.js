@@ -44,9 +44,7 @@ function Controller() {
         firstTime && populate();
     };
     var populate = function() {
-        var p = pastorObject.field_profile_biography.replace(/\n|\r/g, "<br/><br/>");
-        var bodyHtml = "<p>" + p + "</p>";
-        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
+        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + pastorObject.field_profile_biography + "</body></html>";
         view.setHtml(html);
         firstTime = false;
     };

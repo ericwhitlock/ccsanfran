@@ -25,7 +25,8 @@ function Controller() {
         color: "#d15941",
         id: "titleLabel",
         left: "63",
-        top: "5"
+        top: "5",
+        height: "19"
     });
     $.__views.row.add($.__views.titleLabel);
     $.__views.subTitleLabel = Ti.UI.createLabel({
@@ -36,7 +37,8 @@ function Controller() {
         color: "#516a0f",
         id: "subTitleLabel",
         left: "63",
-        top: "28"
+        top: "28",
+        height: "18"
     });
     $.__views.row.add($.__views.subTitleLabel);
     exports.destroy = function() {};
