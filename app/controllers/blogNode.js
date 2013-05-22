@@ -17,7 +17,14 @@ bComments.addEventListener('click', function(e){
 	var win = Alloy.createController('comments', {nid:nid, tab:tab}).getView();
 	tab.open(win);
 });
-win.rightNavButton = bComments;
+
+if(OS_ANDROID){
+	bComments.top = 5;
+	bComments.right = 5;
+	win.add(bComments);
+}else{
+	win.rightNavButton = bComments;
+}
 
 var firstTime = true;
 var isUpdating = false;

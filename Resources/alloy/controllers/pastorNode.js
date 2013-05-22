@@ -46,7 +46,9 @@ function Controller() {
     bBio.addEventListener("click", function() {
         onBioClick();
     });
-    win.rightNavButton = bBio;
+    bBio.top = 5;
+    bBio.right = 2;
+    win.add(bBio);
     var onBioClick = function() {
         var win = Alloy.createController("biography", {
             pastorObject: pastorObject,

@@ -18,7 +18,13 @@ var bBio = Ti.UI.createButton({title:Alloy.isTablet ? 'Biography' : 'Bio'});
 bBio.addEventListener('click', function(e){
 	onBioClick();
 });
-win.rightNavButton = bBio;
+if(OS_ANDROID){
+	bBio.top = 5;
+	bBio.right = 5;
+	win.add(bBio);
+}else{
+	win.rightNavButton = bBio;
+}
 
 var onBioClick = function(){
 	var win = Alloy.createController('biography', {pastorObject:pastorObject, tab:tab}).getView();

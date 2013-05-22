@@ -68,7 +68,9 @@ function Controller() {
         }).getView();
         tab.open(win);
     });
-    win.rightNavButton = bComments;
+    bComments.top = 5;
+    bComments.right = 2;
+    win.add(bComments);
     var firstTime = true;
     var isUpdating = false;
     var now;

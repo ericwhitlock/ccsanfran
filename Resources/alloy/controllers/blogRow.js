@@ -63,8 +63,7 @@ function Controller() {
     $.row.body = body;
     $.row.author = author;
     $.row.changed = changed;
-    var temp = decodeURIComponent(title);
-    $.titleLabel.text = temp;
+    $.titleLabel.text = title;
     $.subTitleName.text = author ? author : "Author Unknown";
     $.dateLabel.text = changed;
     _.extend($, exports);
