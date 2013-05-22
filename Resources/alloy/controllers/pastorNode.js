@@ -30,7 +30,7 @@ function Controller() {
     _.extend($, $.__views);
     var Alloy = require("alloy");
     var win = $.win;
-    var view = $.web;
+    $.web;
     var firstTime = true;
     var args = arguments[0] || {};
     var tab = args.tab;
@@ -44,13 +44,16 @@ function Controller() {
         title: Alloy.isTablet ? "Biography" : "Bio"
     });
     bBio.addEventListener("click", function() {
+        onBioClick();
+    });
+    win.rightNavButton = bBio;
+    var onBioClick = function() {
         var win = Alloy.createController("biography", {
             pastorObject: pastorObject,
             tab: tab
         }).getView();
         tab.open(win);
-    });
-    win.rightNavButton = bBio;
+    };
     var init = function() {
         Ti.API.info("[pastorNode][init]");
         firstTime && populate();
@@ -58,9 +61,9 @@ function Controller() {
     var populate = function() {
         var spouseHtml = "";
         "" != pastorObject.field_profile_spouse && pastorObject.field_profile_spouse && (spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + "</p></div>");
-        var bodyHtml = '<image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/>' + spouseHtml + "<p>" + pastorObject.field_profile_vision + "</p>";
+        var bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
         var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
-        view.setHtml(html);
+        $.web.html = html;
         firstTime = false;
     };
     __defers["$.__views.win!focus!init"] && $.__views.win.addEventListener("focus", init);

@@ -1,5 +1,14 @@
 <Alloy>
 	<Window title="Home" id="win" onFocus="init">
+	<!-->	<ScrollView width="100%" height="100%" contentHeight="Ti.UI.SIZE">
+			<View layout="vertical">
+				<Label id="titleLabel" class="h1" height="45"></Label>
+				<View height="8"/>
+				<Label id="bodyLabel" class="p"></Label>
+				<View height="8"/>
+			</View>
+		</ScrollView>
+	-->	
 		<WebView id="web"></WebView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
 		<View id="tryAgain" visible="false" onClick="tryAgain">

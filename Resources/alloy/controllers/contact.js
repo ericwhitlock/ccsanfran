@@ -57,7 +57,6 @@ function Controller() {
     _.extend($, $.__views);
     var Alloy = require("alloy");
     $.win;
-    var view = $.web;
     var now;
     var firstTime = true;
     var isUpdating = false;
@@ -79,17 +78,19 @@ function Controller() {
             $.errorLabel.visible = false;
             $.hang.hide();
             var contact_data = JSON.parse(contact_data_string);
-            var bodyHtml = "<h1>" + contact_data.title + "</h1><p>" + contact_data.body.und[0].safe_value + "</p>";
+            var bodyHtml = "<h1>" + contact_data.title + "</h1>" + contact_data.body.und[0].safe_value;
             var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
-            view.setHtml(html);
+            $.web.html = html;
         }
         firstTime = false;
     };
     var updateFromNetwork = function() {
         if (!isUpdating) {
             isUpdating = true;
-            var url = Alloy.Globals.REST_PATH + "node/5" + ".json";
-            var xhr = Titanium.Network.createHTTPClient();
+            var url = Alloy.Globals.REST_PATH + "node/11" + ".json";
+            var xhr = Titanium.Network.createHTTPClient({
+                timeout: Alloy.Globals.timeout
+            });
             xhr.open("GET", url);
             xhr.onerror = function() {
                 handleError();

@@ -57,7 +57,7 @@ function Controller() {
     _.extend($, $.__views);
     var Alloy = require("alloy");
     $.win;
-    var view = $.web;
+    $.web;
     var now;
     var isUpdating = false;
     var firstTime = true;
@@ -69,8 +69,9 @@ function Controller() {
         } else populate(); else populate();
     };
     var populate = function() {
-        var home_html_body = Alloy.Globals.db.getValueByKey("home_html_body");
-        if ("" == home_html_body) if (firstTime) $.hang.show(); else {
+        var home_title_text = Alloy.Globals.db.getValueByKey("home_title_text");
+        var home_body_text = Alloy.Globals.db.getValueByKey("home_body_text");
+        if ("" == home_title_text) if (firstTime) $.hang.show(); else {
             $.tryAgain.visible = true;
             $.errorLabel.visible = true;
             $.hang.hide();
@@ -78,15 +79,18 @@ function Controller() {
             $.tryAgain.visible = false;
             $.errorLabel.visible = false;
             $.hang.hide();
-            var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + home_html_body + "</body></html>";
-            view.setHtml(html);
+            var bodyHtml = "<h1>" + home_title_text + "</h1><div>" + home_body_text + "</div>";
+            var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
+            $.web.html = html;
         }
         firstTime = false;
     };
     var updateFromNetwork = function() {
         if (!isUpdating) {
             isUpdating = true;
-            var xhr = Titanium.Network.createHTTPClient();
+            var xhr = Titanium.Network.createHTTPClient({
+                timeout: Alloy.Globals.timeout
+            });
             var url = Alloy.Globals.REST_PATH + "node/9" + ".json";
             Ti.API.info("[home][refresh] url = " + url);
             xhr.open("GET", url);
@@ -96,8 +100,8 @@ function Controller() {
                 if (200 == statusCode) {
                     var response = xhr.responseText;
                     var data = JSON.parse(response);
-                    var bodyHtml = "<h1>" + data.title + "</h1>" + data.body.und[0].value;
-                    Alloy.Globals.db.updateValueByKey(bodyHtml, "home_html_body");
+                    Alloy.Globals.db.updateValueByKey(data.title, "home_title_text");
+                    Alloy.Globals.db.updateValueByKey(data.body.und[0].safe_value, "home_body_text");
                     populate();
                     Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_home_tab");
                     now = null;

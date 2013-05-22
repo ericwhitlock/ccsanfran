@@ -51,7 +51,6 @@ function Controller() {
     _.extend($, $.__views);
     var Alloy = require("alloy");
     var win = $.win;
-    var view = $.web;
     var args = arguments[0] || {};
     var tab = args.tab || "";
     var nid = args.nid || "";
@@ -90,10 +89,9 @@ function Controller() {
         }
     };
     var populate = function() {
-        body.replace(/\n|\r/g, "<br/><br/>");
-        var html_body = "<h1>" + title + "</h1><h4>" + author + "</h4><p>" + body + "</p>";
-        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + html_body + "</body></html>";
-        view.setHtml(html);
+        var bodyHtml = "<h1>" + title + "</h1><h4>" + author + "</h4><div>" + body + "</div>";
+        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
+        $.web.html = html;
         updateCommentsButton();
         firstTime = false;
     };
@@ -101,7 +99,9 @@ function Controller() {
         if (!isUpdating) {
             isUpdating = true;
             var url = Alloy.Globals.REST_PATH + "node/" + nid + ".json";
-            var xhr = Titanium.Network.createHTTPClient();
+            var xhr = Titanium.Network.createHTTPClient({
+                timeout: Alloy.Globals.timeout
+            });
             xhr.open("GET", url);
             xhr.onerror = function() {
                 handleError();

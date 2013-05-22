@@ -14,6 +14,6 @@ $.row.body = body;
 $.row.author = author;
 $.row.changed = changed;
 
-$.titleLabel.text = title;
+$.titleLabel.text = title; 
 $.subTitleName.text = (author) ? author : 'Author Unknown';
 $.dateLabel.text = changed;

@@ -1,7 +1,6 @@
 var Alloy = require('alloy');
 
 var win = $.win;
-var view = $.web;
 
 // Passed Arguments
 var args = arguments[0] || {};
@@ -59,10 +58,15 @@ var updateCommentsButton = function(){
 };
 
 var populate = function(){
-	var p = body.replace(/\n|\r/g, "<br/><br/>");
-	var html_body = '<h1>' + title + '</h1><h4>' + author + '</h4><p>' + body + '</p>';
-	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + html_body + '</body></html>';
-	view.setHtml(html);
+	// If we decide to go with ScrollView
+	//$.titleLabel.text = title;
+	//$.nameLabel.text = author;
+	//$.bodyLabel.text = body;
+	
+	// If we decide to go with WebView
+	var bodyHtml = '<h1>' + title + '</h1><h4>' + author + '</h4><div>' + body + '</div>';
+	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+	$.web.html = html;
 	
 	updateCommentsButton();
 	
@@ -79,7 +83,7 @@ var updateFromNetwork = function(){
 		var url = Alloy.Globals.REST_PATH + 'node/' + nid + '.json';
 		
 		// Create a connection inside the variable xhr
-		var xhr = Titanium.Network.createHTTPClient();
+		var xhr = Titanium.Network.createHTTPClient({timeout:Alloy.Globals.timeout});
 		
 		// Open the xhr
 		xhr.open("GET",url);

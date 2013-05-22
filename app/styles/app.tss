@@ -18,6 +18,11 @@
 	backgroundColor:"transparent",
 	hideLoadIndicator:true
 }
+"ScrollView":{
+	width:"100%",
+	height:"100%",
+	contentHeight:"Ti.UI.SIZE"
+}
 
 "ActivityIndicator":{
 	style:Ti.UI.iPhone.ActivityIndicatorStyle.DARK
@@ -60,4 +65,16 @@
 	color:'#f09b1e' // was 000000
 }
 
+".h1":{
+	font:{fontWeight:"bold", fontSize:24}
+}
+
+".h2":{
+	font:{fontWeight:"bold", fontSize:18},
+	color:"#516a0f"
+}
+
+".p":{
+	color:'#74701e'
+}
 

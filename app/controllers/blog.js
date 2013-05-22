@@ -8,7 +8,7 @@ var now;
 var isUpdating = false;
 var firstTime = true;
 var changed = false;
-var rowData = [];
+var storedRows = [];
 
 exports.setParentTab = function(pTab){
 	tab = pTab;
@@ -38,7 +38,7 @@ var updateFromNetwork = function(){
 	if(!isUpdating){
 		isUpdating = true;
 		var url = Alloy.Globals.SITE_PATH + 'blog/api/json';
-		var xhr = Titanium.Network.createHTTPClient({timeout:20000});
+		var xhr = Titanium.Network.createHTTPClient({timeout:Alloy.Globals.timeout});
 		xhr.open("GET",url);
 	
 		xhr.onerror = function(){
@@ -106,8 +106,8 @@ var populateTable = function(){
 		        Alloy.Globals.blogsShowingIndex = i;
 		    }
 		 	
-		 	var data = rowData.concat(rows);
-		 	rowData = data.slice(0);
+		 	var data = storedRows.concat(rows);
+		 	storedRows = data.slice(0);
 		 	
 		 	if(i_end < blogCollection.length){
 		 		var show_more_row = Ti.UI.createTableViewRow({nid:'show_more', title:'Show more blogs!', height:84, color:Alloy.Globals.TITLE_LABEL_COLOR});
@@ -124,12 +124,12 @@ var populateTable = function(){
 };
 
 var onTableClick = function(e){
-	if(e.rowData.nid == 'show_more'){
+	if(e.row.nid == 'show_more'){
 		changed = true;
 		Alloy.Globals.blogsShowingIndex++;
 		populateTable();
 	}else{
-		var win = Alloy.createController('blogNode', {nid: e.rowData.nid, title:e.rowData._title, body:e.rowData.body, author:e.rowData.author, tab:tab}).getView();
+		var win = Alloy.createController('blogNode', {nid: e.row.nid, title:e.row._title, body:e.row.body, author:e.row.author, tab:tab}).getView();
 		tab.open(win);
 	}
 };

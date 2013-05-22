@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.enjoycreativity.poimen</id>
+    <id>com.ericwhitlock.poimen</id>
     <name>PoiMen</name>
     <version>1.0</version>
     <publisher>Poimen Ministries</publisher>
@@ -28,7 +28,11 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+	    <manifest>
+	        <supports-screens android:anyDensity="false"/>
+	    </manifest>
+	</android>
     <mobileweb>
         <precache/>
         <splash>

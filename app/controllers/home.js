@@ -27,8 +27,9 @@ var init = function(){
 };
 
 var populate = function(){
-	var home_html_body = Alloy.Globals.db.getValueByKey('home_html_body');
-	if(home_html_body == ''){
+	var home_title_text = Alloy.Globals.db.getValueByKey('home_title_text');
+	var home_body_text = Alloy.Globals.db.getValueByKey('home_body_text');
+	if(home_title_text == ''){
 		if(firstTime){
 			$.hang.show();
 		}else{
@@ -40,8 +41,15 @@ var populate = function(){
 		$.tryAgain.visible = false;
 		$.errorLabel.visible = false;
 		$.hang.hide();
-		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + home_html_body + '</body></html>';
-		view.setHtml(html);
+		
+		// If we decide to go with ScrollView
+		//$.titleLabel.text = home_title_text;
+		//$.bodyLabel.text = home_body_text;
+		
+		// If we decide to go with WebView
+		var bodyHtml = '<h1>' + home_title_text + '</h1><div>' + home_body_text + '</div>';
+		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+		$.web.html = html;
 	}
 	firstTime = false;
 };
@@ -50,7 +58,7 @@ var updateFromNetwork = function(){
 	if(!isUpdating){
 		isUpdating = true;
 	
-		var xhr = Titanium.Network.createHTTPClient();
+		var xhr = Titanium.Network.createHTTPClient({timeout:Alloy.Globals.timeout});
 		
 		var url = Alloy.Globals.REST_PATH + 'node/9' + '.json';
 		Ti.API.info('[home][refresh] url = ' + url);
@@ -69,9 +77,8 @@ var updateFromNetwork = function(){
 				// Parse (build data structure) the JSON response into an object (data)
 				var data = JSON.parse(response);
 				
-				var bodyHtml = '<h1>' + data.title + '</h1>' + data.body.und[0].value;
-				
-				Alloy.Globals.db.updateValueByKey(bodyHtml, 'home_html_body');
+				Alloy.Globals.db.updateValueByKey(data.title, 'home_title_text');
+				Alloy.Globals.db.updateValueByKey(data.body.und[0].safe_value, 'home_body_text');
 				populate();
 				
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_home_tab');

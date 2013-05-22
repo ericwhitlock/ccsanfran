@@ -1,12 +1,14 @@
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
-Alloy.Globals.REST_PATH = "http://poimen.enjoycreativity.com/api/rest/";
+Alloy.Globals.REST_PATH = "http://poimen.enjoycreativity.net/api/rest/";
 
-Alloy.Globals.SITE_PATH = "http://poimen.enjoycreativity.com/";
+Alloy.Globals.SITE_PATH = "http://poimen.enjoycreativity.net/";
 
 Alloy.Globals.MAX_BLOGS = 20;
 
 Alloy.Globals.blogsShowingIndex = 0;
+
+Alloy.Globals.timeout = 8e4;
 
 var _database = require("db");
 

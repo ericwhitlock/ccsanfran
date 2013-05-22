@@ -8,10 +8,11 @@
 // accessible globally by attaching them to the `Alloy.Globals`
 // object. For example:
 //
-Alloy.Globals.REST_PATH = 'http://poimen.enjoycreativity.com/api/rest/';
-Alloy.Globals.SITE_PATH = 'http://poimen.enjoycreativity.com/';
+Alloy.Globals.REST_PATH = 'http://poimen.enjoycreativity.net/api/rest/';
+Alloy.Globals.SITE_PATH = 'http://poimen.enjoycreativity.net/';
 Alloy.Globals.MAX_BLOGS = 20;
 Alloy.Globals.blogsShowingIndex = 0;
+Alloy.Globals.timeout = 80000; // 80 seconds
 
 var _database = require('db');
 Alloy.Globals.db = new _database();

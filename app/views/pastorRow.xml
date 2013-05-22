@@ -1,7 +1,7 @@
 <Alloy>
 	<TableViewRow id="row" height="50" hasChild="true">
 		<ImageView id="thumb" left="0" height="50" width="50"></ImageView>
-		<Label id="titleLabel" left="63" top="5" height="19"></Label>
+		<Label id="titleLabel" left="63" top="5" height="24"></Label>
 		<Label id="subTitleLabel" left="63" top="28" height="18"></Label>
 	</TableViewRow>
 </Alloy>

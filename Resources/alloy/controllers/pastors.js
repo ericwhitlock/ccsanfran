@@ -104,7 +104,7 @@ function Controller() {
             var url = Alloy.Globals.SITE_PATH + "pastors/api/json";
             Ti.API.info("[pastors][updateFromNetwork] url = " + url);
             var xhr = Titanium.Network.createHTTPClient({
-                timeout: 2e4
+                timeout: Alloy.Globals.timeout
             });
             xhr.open("GET", url);
             xhr.onerror = function() {
@@ -132,7 +132,7 @@ function Controller() {
     };
     var onTableClick = function(e) {
         var win = Alloy.createController("pastorNode", {
-            pastorObject: e.rowData.pastorObject,
+            pastorObject: e.row.pastorObject,
             tab: tab
         }).getView();
         tab.open(win, {

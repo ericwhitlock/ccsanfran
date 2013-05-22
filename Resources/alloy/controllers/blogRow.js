@@ -19,7 +19,7 @@ function Controller() {
         id: "titleLabel",
         left: "10",
         right: "12",
-        height: "38",
+        height: "40",
         top: "2"
     });
     $.__views.row.add($.__views.titleLabel);
@@ -63,7 +63,8 @@ function Controller() {
     $.row.body = body;
     $.row.author = author;
     $.row.changed = changed;
-    $.titleLabel.text = title;
+    var temp = decodeURIComponent(title);
+    $.titleLabel.text = temp;
     $.subTitleName.text = author ? author : "Author Unknown";
     $.dateLabel.text = changed;
     _.extend($, exports);

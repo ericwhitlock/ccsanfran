@@ -1,5 +1,17 @@
 <Alloy>
 	<Window title="Pastor" id="win" onFocus="init">
+	<!-->	<ScrollView width="100%" height="100%" contentHeight="Ti.UI.SIZE">
+			<View layout="vertical">
+				<View height="200" width="100%">
+					<ImageView id="img" top="10" width="200" height="200"></ImageView>
+					<Button platform="android" title="Bio" onClick="onBioClick" width="65" height="37" right="10"></Button>
+				</View>
+				<View height="8"/>
+				<Label id="vision" class="p" height="Ti.UI.SIZE"></Label>
+				<View height="8"/>
+			</View>
+		</ScrollView>
+	-->	
 		<WebView id="web"></WebView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
 	</Window>

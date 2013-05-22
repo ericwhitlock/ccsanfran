@@ -16,10 +16,14 @@ win.title = (pastorObject.field_profile_full_name) ? pastorObject.field_profile_
 
 var bBio = Ti.UI.createButton({title:Alloy.isTablet ? 'Biography' : 'Bio'});
 bBio.addEventListener('click', function(e){
-	var win = Alloy.createController('biography', {pastorObject:pastorObject, tab:tab}).getView();
-	tab.open(win);
+	onBioClick();
 });
 win.rightNavButton = bBio;
+
+var onBioClick = function(){
+	var win = Alloy.createController('biography', {pastorObject:pastorObject, tab:tab}).getView();
+	tab.open(win);
+};
 
 // Called every time the user opens this pastor node
 var init = function(){
@@ -31,15 +35,20 @@ var init = function(){
 };
 
 var populate = function(){
+	
+	// If we decide to go with using a scrollView
+	//$.img.image = pastorObject.field_photo;
+	//$.vision.text = pastorObject.field_profile_vision;
+	
+	// If we decide to go with a webview
 	var spouseHtml = '';
 	if(pastorObject.field_profile_spouse != '' && pastorObject.field_profile_spouse){
 		spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + '</p></div>';
 	}
-	
-	var bodyHtml = '<image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/>' + spouseHtml + '<p>' + pastorObject.field_profile_vision + '</p>';
-	
+	var bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
 	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
-				
-	view.setHtml(html);
+	$.web.html = html;
+	
 	firstTime = false;
+	
 };

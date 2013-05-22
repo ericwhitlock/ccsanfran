@@ -26,7 +26,7 @@ function Controller() {
         id: "titleLabel",
         left: "63",
         top: "5",
-        height: "19"
+        height: "24"
     });
     $.__views.row.add($.__views.titleLabel);
     $.__views.subTitleLabel = Ti.UI.createLabel({
@@ -45,6 +45,7 @@ function Controller() {
     _.extend($, $.__views);
     require("alloy");
     var pastorObject = arguments[0] || {
+        uid: "none",
         field_profile_full_name: "",
         field_profile_location: "",
         field_photo: ""

@@ -65,7 +65,7 @@ function Controller() {
     var isUpdating = false;
     var firstTime = true;
     var changed = false;
-    var rowData = [];
+    var storedRows = [];
     exports.setParentTab = function(pTab) {
         tab = pTab;
     };
@@ -81,7 +81,7 @@ function Controller() {
             isUpdating = true;
             var url = Alloy.Globals.SITE_PATH + "blog/api/json";
             var xhr = Titanium.Network.createHTTPClient({
-                timeout: 2e4
+                timeout: Alloy.Globals.timeout
             });
             xhr.open("GET", url);
             xhr.onerror = function() {
@@ -126,8 +126,8 @@ function Controller() {
                     rows.push(row);
                     Alloy.Globals.blogsShowingIndex = i;
                 }
-                var data = rowData.concat(rows);
-                rowData = data.slice(0);
+                var data = storedRows.concat(rows);
+                storedRows = data.slice(0);
                 if (blogCollection.length > i_end) {
                     var show_more_row = Ti.UI.createTableViewRow({
                         nid: "show_more",
@@ -144,16 +144,16 @@ function Controller() {
         changed = false;
     };
     var onTableClick = function(e) {
-        if ("show_more" == e.rowData.nid) {
+        if ("show_more" == e.row.nid) {
             changed = true;
             Alloy.Globals.blogsShowingIndex++;
             populateTable();
         } else {
             var win = Alloy.createController("blogNode", {
-                nid: e.rowData.nid,
-                title: e.rowData._title,
-                body: e.rowData.body,
-                author: e.rowData.author,
+                nid: e.row.nid,
+                title: e.row._title,
+                body: e.row.body,
+                author: e.row.author,
                 tab: tab
             }).getView();
             tab.open(win);
