@@ -7,8 +7,8 @@ function Controller() {
     $.__views.row = Ti.UI.createTableViewRow({
         selectionStyle: Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
         id: "row",
-        height: "84",
-        hasChild: "true"
+        height: Ti.UI.SIZE,
+        hasChild: "false"
     });
     $.__views.row && $.addTopLevelView($.__views.row);
     $.__views.titleLabel = Ti.UI.createLabel({
@@ -24,19 +24,6 @@ function Controller() {
         top: "2"
     });
     $.__views.row.add($.__views.titleLabel);
-    $.__views.subTitleName = Ti.UI.createLabel({
-        font: {
-            fontWeight: "bold",
-            fontSize: 14
-        },
-        color: "#516a0f",
-        id: "subTitleName",
-        left: "10",
-        right: "12",
-        height: "18",
-        top: "42"
-    });
-    $.__views.row.add($.__views.subTitleName);
     $.__views.dateLabel = Ti.UI.createLabel({
         font: {
             fontWeight: "normal",
@@ -44,29 +31,34 @@ function Controller() {
         },
         color: "#74701e",
         id: "dateLabel",
-        left: "10",
         right: "12",
         height: "18",
-        top: "62"
+        top: "2"
     });
     $.__views.row.add($.__views.dateLabel);
+    $.__views.commentLabel = Ti.UI.createLabel({
+        font: {
+            fontWeight: "normal",
+            fontSize: 14
+        },
+        color: "#74701e",
+        id: "commentLabel",
+        left: "10",
+        right: "12",
+        height: Ti.UI.SIZE,
+        top: "42"
+    });
+    $.__views.row.add($.__views.commentLabel);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    require("alloy");
+    var Alloy = require("alloy");
     var args = arguments[0] || {};
-    var nid = args.nid || "";
-    var title = args.title || "";
-    var body = args.body || "";
-    var changed = args.changed || "";
-    var author = args.field_profile_full_name || null;
-    $.row.nid = nid;
-    $.row._title = title;
-    $.row.body = body;
-    $.row.author = author;
-    $.row.changed = changed;
-    $.titleLabel.text = title;
-    $.subTitleName.text = author ? author : "Author Unknown";
-    $.dateLabel.text = changed;
+    var author = args.name || "(No Name)";
+    var changed = new Date(1e3 * parseInt(args.changed)) || null;
+    var comment = args.comment_body.und[0].value || "";
+    $.titleLabel.text = author;
+    changed && ($.dateLabel.text = Alloy.Globals.getReadableDateTime(changed));
+    $.commentLabel.text = comment + "\n\n";
     _.extend($, exports);
 }
 

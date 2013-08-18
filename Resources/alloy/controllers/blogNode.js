@@ -68,9 +68,7 @@ function Controller() {
         }).getView();
         tab.open(win);
     });
-    bComments.top = 5;
-    bComments.right = 2;
-    win.add(bComments);
+    win.rightNavButton = bComments;
     var firstTime = true;
     var isUpdating = false;
     var now;
@@ -85,9 +83,9 @@ function Controller() {
         var node_data_string = Alloy.Globals.db.getValueByKey("blog_data_node_" + nid);
         if ("" != node_data_string) {
             var node_data = JSON.parse(node_data_string);
-            var total_comments_string = node_data.comment;
+            var total_comments_string = node_data.comment_count;
             var total_comments = parseInt(total_comments_string);
-            total_comments > 0 && (bComments.title = "Comments (" + total_comments + ")");
+            bComments.title = "Comments (" + total_comments + ")";
         }
     };
     var populate = function() {

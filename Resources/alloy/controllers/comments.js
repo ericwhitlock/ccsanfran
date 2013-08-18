@@ -13,12 +13,12 @@ function Controller() {
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
-    $.__views.web = Ti.UI.createWebView({
-        backgroundColor: "transparent",
-        hideLoadIndicator: true,
-        id: "web"
+    $.__views.tv = Ti.UI.createTableView({
+        backgroundColor: "#f6e18e",
+        separatorColor: "#e0cc5b",
+        id: "tv"
     });
-    $.__views.win.add($.__views.web);
+    $.__views.win.add($.__views.tv);
     $.__views.errorLabel = Ti.UI.createLabel({
         top: 100,
         text: "Please check your internet connection.",
@@ -55,19 +55,83 @@ function Controller() {
     $.__views.win.add($.__views.hang);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    require("alloy");
+    var Alloy = require("alloy");
     $.win;
-    $.web;
+    var view = $.tv;
+    var now;
     var isUpdating = false;
+    var firstTime = true;
     var args = arguments[0] || {};
     args.tab || "";
-    args.nid || "";
+    var nid = args.nid || "";
     var init = function() {
         Ti.API.info("[comments][init]");
         Ti.Network.online ? updateFromNetwork() : populate();
     };
-    var populate = function() {};
-    var updateFromNetwork = function() {};
+    var populateTable = function(str) {
+        var obj = JSON.parse(str);
+        var rows = [];
+        var arr = [];
+        for (comment in obj) {
+            var commentObject = obj[comment];
+            1 == parseInt(commentObject.status) && arr.push(obj[comment]);
+        }
+        arr.sort(function(a, b) {
+            var x = new Date(1e3 * a.changed);
+            var y = new Date(1e3 * b.changed);
+            return x > y ? -1 : y > x ? 1 : 0;
+        });
+        for (var i = 0; arr.length > i; i++) {
+            var row = Alloy.createController("commentRow", arr[i]).getView();
+            rows.push(row);
+        }
+        view.setData(rows);
+    };
+    var populate = function() {
+        var comments_json = Alloy.Globals.db.getValueByKey("node_" + nid + "_comments");
+        if ("" == comments_json) if (firstTime) $.hang.show(); else {
+            $.tryAgain.visible = true;
+            $.errorLabel.visible = true;
+            $.hang.hide();
+        } else {
+            $.tryAgain.visible = false;
+            $.errorLabel.visible = false;
+            $.hang.hide();
+            populateTable(comments_json);
+        }
+        firstTime = false;
+    };
+    var updateFromNetwork = function() {
+        if (!isUpdating) {
+            isUpdating = true;
+            var xhr = Titanium.Network.createHTTPClient();
+            var url = Alloy.Globals.REST_PATH + "node/" + nid + "/comments.json";
+            Ti.API.info("[comments][updateFromNetwork] url = " + url);
+            xhr.open("GET", url);
+            xhr.onload = function() {
+                Ti.API.info("[onload]");
+                var statusCode = xhr.status;
+                if (200 == statusCode) {
+                    var response = xhr.responseText;
+                    Ti.API.info("comments: " + response);
+                    Alloy.Globals.db.updateValueByKey(response, "node_" + nid + "_comments");
+                    populate();
+                    Alloy.Globals.db.updateValueByKey(now.toISOString(), "last_update_comments_node_" + nid);
+                    now = null;
+                    isUpdating = false;
+                } else handleError();
+            };
+            xhr.onerror = function() {
+                handleError();
+            };
+            now = new Date();
+            xhr.send();
+        }
+    };
+    var handleError = function() {
+        isUpdating = false;
+        populate();
+    };
     var tryAgain = function() {
         $.tryAgain.visible = false;
         $.errorLabel.visible = false;

@@ -55,13 +55,13 @@ var updateCommentsButton = function(){
 	var node_data_string = Alloy.Globals.db.getValueByKey('blog_data_node_' + nid);
 	if(node_data_string != ''){
 		var node_data = JSON.parse(node_data_string);
-		var total_comments_string = node_data.comment;
+		var total_comments_string = node_data.comment_count;
 		var total_comments = parseInt(total_comments_string);
 		
-		if(total_comments > 0){
+	//	if(total_comments > 0){
 			bComments.title = 'Comments (' + total_comments + ')';
 		}
-	}
+	//}
 };
 
 var populate = function(){

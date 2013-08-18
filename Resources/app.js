@@ -1,8 +1,8 @@
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
-Alloy.Globals.REST_PATH = "http://poimen.enjoycreativity.net/api/rest/";
+Alloy.Globals.REST_PATH = "http://poimenministries.com/api/rest/";
 
-Alloy.Globals.SITE_PATH = "http://poimen.enjoycreativity.net/";
+Alloy.Globals.SITE_PATH = "http://poimenministries.com/";
 
 Alloy.Globals.MAX_BLOGS = 20;
 
@@ -33,6 +33,27 @@ Alloy.Globals.shouldUpdate = function(key, minutes) {
 
 Alloy.Globals.alertNoConnection = function() {
     alert("No internet connection detected.");
+};
+
+Alloy.Globals.getReadableDateTime = function(d) {
+    var obj = {
+        h: d.getHours(),
+        m: d.getMinutes(),
+        s: d.getSeconds()
+    };
+    var str = "";
+    str += d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + "   ";
+    var m = " AM";
+    var hour = obj.h;
+    if (hour >= 12) {
+        hour -= 12;
+        m = " PM";
+        0 == hour && (hour = 12);
+    }
+    hour > 0 && (str += hour + ":");
+    str += obj.m > 0 ? obj.m > 9 ? obj.m : "0" + obj.m : "00";
+    str += m;
+    return str;
 };
 
 Alloy.Globals.TITLE_LABEL_COLOR = "#d15941";

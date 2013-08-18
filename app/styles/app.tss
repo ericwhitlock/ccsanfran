@@ -6,6 +6,14 @@
  * 			At the bottom of the file, under 'Style Themes' comment out all
  * 			themes except for the one that matches this theme
  */
+
+/*  *
+ * 		To use this theme, copy/paste the code into 'app/styles/app.tss'
+ * 
+ * 		You must also open the file: 'app/alloy.js' and make these changes:
+ * 			At the bottom of the file, under 'Style Themes' comment out all
+ * 			themes except for the one that matches this theme
+ */
 "Window": {
 	backgroundColor: "#f6e18e", // was DDDDDD
 	barColor:"#e2b958" // was 999999
@@ -14,14 +22,12 @@
 	backgroundColor:"#f6e18e", // was DDDDDD
 	separatorColor:"#e0cc5b" // was CCCCCC
 },
+"TableViewRow": {
+	selectionStyle:Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
+},
 "WebView":{
 	backgroundColor:"transparent",
 	hideLoadIndicator:true
-}
-"ScrollView":{
-	width:"100%",
-	height:"100%",
-	contentHeight:"Ti.UI.SIZE"
 }
 
 "ActivityIndicator":{
@@ -48,6 +54,11 @@
 	color:"#74701e" // was 666666
 }
 
+"#commentLabel":{
+	font:{fontWeight:"normal", fontSize:14},
+	color:"#74701e" // was 666666
+}
+
 "#errorLabel":{
 	top:100
 }
@@ -65,6 +76,9 @@
 	color:'#f09b1e' // was 000000
 }
 
+
+
+/*
 ".h1":{
 	font:{fontWeight:"bold", fontSize:24}
 }
@@ -76,5 +90,5 @@
 
 ".p":{
 	color:'#74701e'
-}
+}*/
 

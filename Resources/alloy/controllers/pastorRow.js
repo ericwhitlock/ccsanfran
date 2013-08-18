@@ -5,6 +5,7 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.row = Ti.UI.createTableViewRow({
+        selectionStyle: Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
         id: "row",
         height: "50",
         hasChild: "true"

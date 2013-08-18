@@ -1,0 +1,7 @@
+<Alloy>
+	<TableViewRow id="row" height="Ti.UI.SIZE" hasChild="false">
+		<Label id="titleLabel" left="10" right="12" height="40" top="2"></Label>
+		<Label id="dateLabel" right="12" height="18" top="2"></Label>
+		<Label id="commentLabel" left="10" right="12" height="Ti.UI.SIZE" top="42"></Label>
+	</TableViewRow>
+</Alloy>

@@ -87,7 +87,7 @@ function Controller() {
     var updateFromNetwork = function() {
         if (!isUpdating) {
             isUpdating = true;
-            var url = Alloy.Globals.REST_PATH + "node/11" + ".json";
+            var url = Alloy.Globals.REST_PATH + "node/111" + ".json";
             var xhr = Titanium.Network.createHTTPClient({
                 timeout: Alloy.Globals.timeout
             });

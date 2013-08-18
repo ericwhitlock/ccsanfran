@@ -43,6 +43,11 @@
 	color:"#74701e" // was 666666
 }
 
+"#commentLabel":{
+	font:{fontWeight:"normal", fontSize:14},
+	color:"#74701e" // was 666666
+}
+
 "#errorLabel":{
 	top:100
 }

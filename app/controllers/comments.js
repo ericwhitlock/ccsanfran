@@ -1,7 +1,7 @@
 var Alloy = require('alloy');
 
 var win = $.win;
-var view = $.web;
+var view = $.tv;
 var now;
 var isUpdating = false;
 var firstTime = true;
@@ -24,9 +24,36 @@ var init = function(){
 	
 };
 
+var populateTable = function(str){
+	var obj = JSON.parse(str);
+	var rows = [];
+	
+	var arr = [];
+	
+	for(comment in obj){
+		var commentObject = obj[comment];
+		if(parseInt(commentObject.status) == 1){
+			arr.push(obj[comment]);
+		}
+	}
+	
+	arr.sort(function(a, b) {
+	    var x = new Date(1000 * a.changed);
+	    var y = new Date(1000 * b.changed);
+	    return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+	});
+	
+	for(var i = 0; i < arr.length; i++){
+		var row = Alloy.createController('commentRow', arr[i]).getView();
+		rows.push(row);
+	}
+	
+	view.setData(rows);
+};
+
 var populate = function(){
-/*	var home_html = Alloy.Globals.db.getValueByKey('home_html');
-	if(home_html == ''){
+	var comments_json = Alloy.Globals.db.getValueByKey('node_' + nid + '_comments');
+	if(comments_json == ''){
 		if(firstTime){
 			$.hang.show();
 		}else{
@@ -38,19 +65,19 @@ var populate = function(){
 		$.tryAgain.visible = false;
 		$.errorLabel.visible = false;
 		$.hang.hide();
-		view.setHtml(home_html);
+		populateTable(comments_json);
 	}
-	firstTime = false;*/
+	firstTime = false;
 };
 
 var updateFromNetwork = function(){
-/*	if(!isUpdating){
+	if(!isUpdating){
 		isUpdating = true;
 	
 		var xhr = Titanium.Network.createHTTPClient();
 		
-		var url = Alloy.Globals.REST_PATH + 'node/9' + '.json';
-		Ti.API.info('[home][refresh] url = ' + url);
+		var url = Alloy.Globals.REST_PATH + 'node/' + nid + '/comments.json';
+		Ti.API.info('[comments][updateFromNetwork] url = ' + url);
 		xhr.open("GET",url);
 		
 		xhr.onload = function() {
@@ -62,18 +89,13 @@ var updateFromNetwork = function(){
 				
 				// Save the responseText from the xhr in the response variable
 				var response = xhr.responseText;
-				
+				Ti.API.info('comments: ' + response);
 				// Parse (build data structure) the JSON response into an object (data)
-				var data = JSON.parse(response);
 				
-				var bodyHtml = '<html><head><title>Sample HTML</title><link rel="stylesheet" href="../../styles/styles.css" type="text/css" /></head><body><div class="webview">';
-				bodyHtml = bodyHtml + '<h1>' + data.title + '</h1>' + data.body.und[0].value;
-				bodyHtml = bodyHtml + '</div></body></html>';
-				
-				Alloy.Globals.db.updateValueByKey(bodyHtml, 'home_html');
+				Alloy.Globals.db.updateValueByKey(response, 'node_' + nid + '_comments');
 				populate();
 				
-				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_home_tab');
+				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_comments_node_' + nid);
 				now = null;
 				isUpdating = false;
 			}
@@ -88,7 +110,7 @@ var updateFromNetwork = function(){
 		
 		now = new Date();
 		xhr.send();
-	}*/
+	}
 };
 
 var handleError = function(){

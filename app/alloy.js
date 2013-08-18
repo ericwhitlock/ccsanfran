@@ -8,8 +8,8 @@
 // accessible globally by attaching them to the `Alloy.Globals`
 // object. For example:
 //
-Alloy.Globals.REST_PATH = 'http://poimen.enjoycreativity.net/api/rest/';
-Alloy.Globals.SITE_PATH = 'http://poimen.enjoycreativity.net/';
+Alloy.Globals.REST_PATH = 'http://poimenministries.com/api/rest/';
+Alloy.Globals.SITE_PATH = 'http://poimenministries.com/';
 Alloy.Globals.MAX_BLOGS = 20;
 Alloy.Globals.blogsShowingIndex = 0;
 Alloy.Globals.timeout = 80000; // 80 seconds
@@ -47,7 +47,40 @@ Alloy.Globals.alertNoConnection = function(){
 	alert('No internet connection detected.');
 };
 
-
+Alloy.Globals.getReadableDateTime = function(d){
+	var obj = {h:d.getHours(), m:d.getMinutes(), s:d.getSeconds()};
+	var str = '';
+	
+	str += (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear() + '   ';
+	
+	var m = ' AM';
+    var hour = obj.h;
+	if(hour >= 12){
+		hour = hour - 12;
+		m = ' PM';
+		if(hour == 0){
+			hour = 12;
+		}
+	}
+	
+    if(hour > 0){
+    	str += hour + ':';
+    } 
+    if(obj.m > 0){
+    	if(obj.m > 9){
+    		str += obj.m;
+    	}else{
+    		str += '0' + obj.m;
+    	}
+    }else{
+    	str += '00';
+    }
+    
+   
+    str += m;
+    
+    return str;
+};
 
 //===================================
 // Style Themes
