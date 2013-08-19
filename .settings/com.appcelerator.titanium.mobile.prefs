@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=CCSanFran
+iosLaunchConfigurationAttributes/appid=com.ericwhitlock.poimen
+iosLaunchConfigurationAttributes/certificate=Eric Whitlock
+iosLaunchConfigurationAttributes/distribute_path=/Users/ewhitlock/Documents/ipa/Poimen
+iosLaunchConfigurationAttributes/keychain=
+iosLaunchConfigurationAttributes/output_format=ipa
+iosLaunchConfigurationAttributes/sdk_version=6.1
+iosLaunchConfigurationAttributes/uuid=0BE3DAC9-9901-4B08-B0CB-EAF6393A3E81

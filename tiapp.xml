@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.ericwhitlock.poimen</id>
-    <name>PoiMen</name>
-    <version>1.0</version>
+    <name>Poimen</name>
+    <version>0.8</version>
     <publisher>Poimen Ministries</publisher>
     <url>http://www.enjoycreativity.com</url>
     <description>This app was created by Enjoy Creativity for Poiment Ministries.</description>
@@ -29,10 +29,10 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-	    <manifest>
-	        <supports-screens android:anyDensity="false"/>
-	    </manifest>
-	</android>
+        <manifest>
+            <supports-screens android:anyDensity="false"/>
+        </manifest>
+    </android>
     <mobileweb>
         <precache/>
         <splash>
@@ -50,7 +50,7 @@
         <target device="mobileweb">false</target>
         <target device="tizen">false</target>
     </deployment-targets>
-    <sdk-version>3.1.0.GA</sdk-version>
+    <sdk-version>3.1.1.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
