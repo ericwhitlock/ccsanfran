@@ -1,7 +1,7 @@
 <Alloy>
-	<TableViewRow id="row" height="50" hasChild="true">
-		<ImageView id="thumb" left="0" height="50" width="50"></ImageView>
-		<Label id="titleLabel" left="63" top="5" height="24"></Label>
-		<Label id="subTitleLabel" left="63" top="28" height="18"></Label>
+	<TableViewRow id="row" height="70" hasChild="true">
+		<ImageView id="thumb" left="0" height="70" width="70"></ImageView>
+		<Label id="titleLabel" left="83" top="10" height="24"></Label>
+		<Label id="subTitleLabel" left="83" top="38" height="18"></Label>
 	</TableViewRow>
 </Alloy>

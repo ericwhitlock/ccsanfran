@@ -22,8 +22,8 @@ Alloy.Globals.shouldUpdate = function(key, minutes) {
         var now = new Date();
         var diff = now - lastDate;
         var diffInMinutes = diff / 1e3 / 60;
-        var timeRequirement = minutes ? minutes : 30;
-        if (diffInMinutes > timeRequirement) {
+        var timeRequirement = minutes ? minutes : 2;
+        if (diffInMinutes >= timeRequirement) {
             Ti.API.info("We should check for updates! diffInMinutes = " + diffInMinutes);
             shouldCheckForUpdates = true;
         } else Ti.API.info("No need to check for updates. diffInMinutes = " + diffInMinutes);

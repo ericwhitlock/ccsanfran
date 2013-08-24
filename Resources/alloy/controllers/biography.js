@@ -8,7 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#f6e18e",
+        backgroundColor: "#FBFFBD",
         barColor: "#e2b958",
         title: "Bio",
         id: "win"

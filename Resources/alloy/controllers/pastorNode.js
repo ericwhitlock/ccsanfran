@@ -8,7 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#f6e18e",
+        backgroundColor: "#FBFFBD",
         barColor: "#e2b958",
         title: "Pastor",
         id: "win"
@@ -48,9 +48,7 @@ function Controller() {
     bBio.addEventListener("click", function() {
         onBioClick();
     });
-    bBio.top = 5;
-    bBio.right = 5;
-    win.add(bBio);
+    win.rightNavButton = bBio;
     var onBioClick = function() {
         var win = Alloy.createController("biography", {
             pastorObject: pastorObject,
@@ -65,7 +63,7 @@ function Controller() {
     var populate = function() {
         var spouseHtml = "";
         "" != pastorObject.field_profile_spouse && pastorObject.field_profile_spouse && (spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + "</p></div>");
-        var bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
+        bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
         var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
         $.web.html = html;
         firstTime = false;

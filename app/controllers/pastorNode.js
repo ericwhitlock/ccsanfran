@@ -51,7 +51,12 @@ var populate = function(){
 	if(pastorObject.field_profile_spouse != '' && pastorObject.field_profile_spouse){
 		spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + '</p></div>';
 	}
-	var bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
+	var bodyHTML;
+	if(OS_ANDROID){
+		bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 0;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
+	}else{
+		bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
+	}
 	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
 	$.web.html = html;
 	

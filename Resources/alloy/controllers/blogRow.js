@@ -9,7 +9,7 @@ function Controller() {
     $.__views.row = Ti.UI.createTableViewRow({
         selectionStyle: Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
         id: "row",
-        height: "84",
+        height: "88",
         hasChild: "true"
     });
     $.__views.row && $.addTopLevelView($.__views.row);
@@ -22,7 +22,7 @@ function Controller() {
         id: "titleLabel",
         left: "10",
         right: "12",
-        height: "40",
+        height: "44",
         top: "2"
     });
     $.__views.row.add($.__views.titleLabel);
@@ -36,7 +36,7 @@ function Controller() {
         left: "10",
         right: "12",
         height: "18",
-        top: "42"
+        top: "46"
     });
     $.__views.row.add($.__views.subTitleName);
     $.__views.dateLabel = Ti.UI.createLabel({
@@ -49,7 +49,7 @@ function Controller() {
         left: "10",
         right: "12",
         height: "18",
-        top: "62"
+        top: "63"
     });
     $.__views.row.add($.__views.dateLabel);
     exports.destroy = function() {};

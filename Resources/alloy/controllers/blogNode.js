@@ -8,7 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#f6e18e",
+        backgroundColor: "#FBFFBD",
         barColor: "#e2b958",
         title: "Blog",
         id: "win"
@@ -70,9 +70,7 @@ function Controller() {
         }).getView();
         tab.open(win);
     });
-    bComments.top = 5;
-    bComments.right = 5;
-    win.add(bComments);
+    win.rightNavButton = bComments;
     var firstTime = true;
     var isUpdating = false;
     var now;
@@ -93,7 +91,7 @@ function Controller() {
         }
     };
     var populate = function() {
-        var bodyHtml = "<h1>" + title + "</h1><h4>" + author + "</h4><div>" + body + "</div>";
+        var bodyHtml = "<h1>" + title + "</h1><h4>" + author + "</h4>" + body;
         var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
         $.web.html = html;
         updateCommentsButton();
