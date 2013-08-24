@@ -1,3 +1,12 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=CCSanFran
+android/abi=x86
+android/distribute_path=/Users/ewhitlock/Documents/ipa/Poimen/apk
+android/keystore_alias=poimen
+android/keystore_password=master0521
+android/keystore_path=/Users/ewhitlock/keystores/poimen.keystore
+android/recent_output=/Users/ewhitlock/Documents/ipa/Poimen/apk
+android/sdk_version=Android 4.2.2
 eclipse.preferences.version=1
 iosLaunchConfigurationAttributes/ATTR_MINIFY=true
 iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=CCSanFran

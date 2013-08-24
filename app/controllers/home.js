@@ -88,7 +88,7 @@ var updateFromNetwork = function(){
 			else {
 				handleError();
 			}
-		}
+		};
 		
 		xhr.onerror = function(err){
 			handleError();

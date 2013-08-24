@@ -69,7 +69,7 @@ var updateFromNetwork = function(){
 		
 		xhr.onerror = function(err){
 			handleError();
-		}
+		};
 		
 		// When the xhr loads we do:
 		xhr.onload = function() {
@@ -91,7 +91,7 @@ var updateFromNetwork = function(){
 			else {
 				handleError();
 			}
-		}
+		};
 		
 		now = new Date();
 		xhr.send();

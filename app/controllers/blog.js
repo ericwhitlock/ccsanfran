@@ -72,7 +72,7 @@ var updateFromNetwork = function(){
 		now = new Date();
 		xhr.send();
 	}
-}
+};
 
 
 var populateTable = function(){

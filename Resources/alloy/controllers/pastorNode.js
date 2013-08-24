@@ -1,7 +1,9 @@
 function Controller() {
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "pastorNode";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     var __defers = {};
@@ -46,7 +48,9 @@ function Controller() {
     bBio.addEventListener("click", function() {
         onBioClick();
     });
-    win.rightNavButton = bBio;
+    bBio.top = 5;
+    bBio.right = 5;
+    win.add(bBio);
     var onBioClick = function() {
         var win = Alloy.createController("biography", {
             pastorObject: pastorObject,

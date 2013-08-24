@@ -1,7 +1,9 @@
 function Controller() {
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    this.__controllerPath = "blogNode";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
+    arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     var __defers = {};
@@ -68,7 +70,9 @@ function Controller() {
         }).getView();
         tab.open(win);
     });
-    win.rightNavButton = bComments;
+    bComments.top = 5;
+    bComments.right = 5;
+    win.add(bComments);
     var firstTime = true;
     var isUpdating = false;
     var now;

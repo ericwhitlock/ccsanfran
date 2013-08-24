@@ -119,7 +119,7 @@ var updateFromNetwork = function(){
 			else {
 				handleError();
 			}
-		}
+		};
 		
 		now = new Date();
 		xhr.send();
