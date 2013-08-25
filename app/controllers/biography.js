@@ -24,7 +24,7 @@ var init = function(){
 
 var populate = function(){
 	
-	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + pastorObject.field_profile_biography + '</body></html>';
+	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style>' + Alloy.Globals.HTML_META + '</head><body>' + pastorObject.field_profile_biography + '</body></html>';
 				
 	view.setHtml(html);
 	firstTime = false;

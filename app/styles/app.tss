@@ -15,11 +15,11 @@
  * 			themes except for the one that matches this theme
  */
 "Window": {
-	backgroundColor: "#FBFFBD", // was f6e18e, new: FBFFBD
+	backgroundColor: "#FFF7CD", // was f6e18e, new: FBFFBD
 	barColor:"#e2b958" // was 999999
 },
 "TableView":{
-	backgroundColor:"#FBFFBD", // was DDDDDD
+	backgroundColor:"#FFF7CD", // was DDDDDD
 	separatorColor:"#e0cc5b" // was CCCCCC
 },
 "TableViewRow": {

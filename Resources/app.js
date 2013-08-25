@@ -10,6 +10,8 @@ Alloy.Globals.blogsShowingIndex = 0;
 
 Alloy.Globals.timeout = 8e4;
 
+Alloy.Globals.HTML_META = '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">';
+
 var _database = require("db");
 
 Alloy.Globals.db = new _database();

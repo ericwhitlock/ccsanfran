@@ -7,11 +7,11 @@
  * 			themes except for the one that matches this theme
  */
 "Window": {
-	backgroundColor: "#f6e18e", // was DDDDDD
+	backgroundColor: "#FFF7CD", // was DDDDDD
 	barColor:"#e2b958" // was 999999
 },
 "TableView":{
-	backgroundColor:"#f6e18e", // was DDDDDD
+	backgroundColor:"#FFF7CD", // was DDDDDD
 	separatorColor:"#e0cc5b" // was CCCCCC
 },
 "WebView":{

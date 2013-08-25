@@ -31,7 +31,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#FBFFBD",
+        backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         title: "Pastors",
         id: "win"
@@ -39,7 +39,7 @@ function Controller() {
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
     $.__views.tv = Ti.UI.createTableView({
-        backgroundColor: "#FBFFBD",
+        backgroundColor: "#FFF7CD",
         separatorColor: "#e0cc5b",
         id: "tv",
         width: Ti.UI.FILL

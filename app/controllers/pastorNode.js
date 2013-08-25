@@ -49,7 +49,11 @@ var populate = function(){
 	// If we decide to go with a webview
 	var spouseHtml = '';
 	if(pastorObject.field_profile_spouse != '' && pastorObject.field_profile_spouse){
-		spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + '</p></div>';
+		if(OS_ANDROID){
+			spouseHtml = '<div height="17" align="left"><p>Spouse: ' + pastorObject.field_profile_spouse + '</p></div>';
+		}else{
+			spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + '</p></div>';
+		}
 	}
 	var bodyHTML;
 	if(OS_ANDROID){
@@ -57,7 +61,7 @@ var populate = function(){
 	}else{
 		bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
 	}
-	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style>' + Alloy.Globals.HTML_META + '</head><body>' + bodyHtml + '</body></html>';
 	$.web.html = html;
 	
 	firstTime = false;

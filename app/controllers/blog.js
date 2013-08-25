@@ -58,6 +58,7 @@ var updateFromNetwork = function(){
 				Alloy.Globals.db.updateValueByKey(response, 'blog_json');
 				Alloy.Globals.blogsShowingIndex = 0;
 				changed = true;
+				storedRows = [];
 				populateTable();
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_tab');
 				isUpdating = false;

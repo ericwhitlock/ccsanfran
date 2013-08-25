@@ -8,7 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#FBFFBD",
+        backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         id: "win",
         title: "Contact"
@@ -81,7 +81,7 @@ function Controller() {
             $.hang.hide();
             var contact_data = JSON.parse(contact_data_string);
             var bodyHtml = "<h1>" + contact_data.title + "</h1>" + contact_data.body.und[0].safe_value;
-            var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
+            var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style>" + Alloy.Globals.HTML_META + "</head><body>" + bodyHtml + "</body></html>";
             $.web.html = html;
         }
         firstTime = false;

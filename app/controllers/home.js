@@ -10,6 +10,8 @@ var firstTime = true;
 var init = function(){
 	Ti.API.info('[pastors][init]');
 	
+	view.width = Ti.Platform.displayCaps.platformWidth; 
+	
 	if(Ti.Network.online){
 		if(Alloy.Globals.shouldUpdate('last_update_home_tab')){
 			if(firstTime){
@@ -48,7 +50,7 @@ var populate = function(){
 		
 		// If we decide to go with WebView
 		var bodyHtml = '<h1>' + home_title_text + '</h1><div>' + home_body_text + '</div>';
-		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style>' + Alloy.Globals.HTML_META + '</head><body>' + bodyHtml + '</body></html>';
 		$.web.html = html;
 	}
 	firstTime = false;

@@ -8,7 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#FBFFBD",
+        backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         title: "Pastor",
         id: "win"
@@ -48,7 +48,9 @@ function Controller() {
     bBio.addEventListener("click", function() {
         onBioClick();
     });
-    win.rightNavButton = bBio;
+    bBio.top = 5;
+    bBio.right = 5;
+    win.add(bBio);
     var onBioClick = function() {
         var win = Alloy.createController("biography", {
             pastorObject: pastorObject,
@@ -62,9 +64,9 @@ function Controller() {
     };
     var populate = function() {
         var spouseHtml = "";
-        "" != pastorObject.field_profile_spouse && pastorObject.field_profile_spouse && (spouseHtml = '<div height="17" align="center"><p>Spouse: ' + pastorObject.field_profile_spouse + "</p></div>");
-        bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 auto;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
-        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
+        "" != pastorObject.field_profile_spouse && pastorObject.field_profile_spouse && (spouseHtml = '<div height="17" align="left"><p>Spouse: ' + pastorObject.field_profile_spouse + "</p></div>");
+        bodyHtml = '<div><image src= "' + pastorObject.field_photo + '"' + ' width="200" height="200" style="display: block; margin: 0 0;"/></div>' + spouseHtml + pastorObject.field_profile_vision;
+        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style>" + Alloy.Globals.HTML_META + "</head><body>" + bodyHtml + "</body></html>";
         $.web.html = html;
         firstTime = false;
     };

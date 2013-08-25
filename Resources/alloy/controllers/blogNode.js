@@ -8,7 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#FBFFBD",
+        backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         title: "Blog",
         id: "win"
@@ -70,7 +70,9 @@ function Controller() {
         }).getView();
         tab.open(win);
     });
-    win.rightNavButton = bComments;
+    bComments.top = 60;
+    bComments.right = 5;
+    win.add(bComments);
     var firstTime = true;
     var isUpdating = false;
     var now;
@@ -92,7 +94,7 @@ function Controller() {
     };
     var populate = function() {
         var bodyHtml = "<h1>" + title + "</h1><h4>" + author + "</h4>" + body;
-        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style></head><body>" + bodyHtml + "</body></html>";
+        var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style>" + Alloy.Globals.HTML_META + "</head><body>" + bodyHtml + "</body></html>";
         $.web.html = html;
         updateCommentsButton();
         firstTime = false;

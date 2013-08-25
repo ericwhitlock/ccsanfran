@@ -48,7 +48,7 @@ var populate = function(){
 		
 		// If we decide to go with WebView
 		var bodyHtml = '<h1>' + contact_data.title + '</h1>' + contact_data.body.und[0].safe_value;
-		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style></head><body>' + bodyHtml + '</body></html>';
+		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style>' + Alloy.Globals.HTML_META + '</head><body>' + bodyHtml + '</body></html>';
 		$.web.html = html;
 	}
 	

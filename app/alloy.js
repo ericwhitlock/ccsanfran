@@ -13,6 +13,7 @@ Alloy.Globals.SITE_PATH = 'http://poimenministries.com/';
 Alloy.Globals.MAX_BLOGS = 20;
 Alloy.Globals.blogsShowingIndex = 0;
 Alloy.Globals.timeout = 80000; // 80 seconds
+Alloy.Globals.HTML_META = '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">';
 
 var _database = require('db');
 Alloy.Globals.db = new _database();
