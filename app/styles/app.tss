@@ -14,7 +14,13 @@
  * 			At the bottom of the file, under 'Style Themes' comment out all
  * 			themes except for the one that matches this theme
  */
-"Window": {
+"Window[platform=android]": {
+	navBarHidden:true,
+	backgroundColor: "#FFF7CD", // was f6e18e, new: FBFFBD
+	barColor:"#e2b958" // was 999999
+},
+"Window[platform=ios]": {
+	navBarHidden:false,
 	backgroundColor: "#FFF7CD", // was f6e18e, new: FBFFBD
 	barColor:"#e2b958" // was 999999
 },

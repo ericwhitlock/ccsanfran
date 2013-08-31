@@ -1,15 +1,16 @@
 <Alloy>
-	<Window title="Home" id="win" onFocus="init">
-	<!-->	<ScrollView width="100%" height="100%" contentHeight="Ti.UI.SIZE">
-			<View layout="vertical">
-				<Label id="titleLabel" class="h1" height="45"></Label>
-				<View height="8"/>
-				<Label id="bodyLabel" class="p"></Label>
-				<View height="8"/>
+	<Window title="Home" id="win" onFocus="init" navBarHidden="true">
+		
+		<View id="loadingScreen" backgroundColor="#000000">
+			<View layout="vertical" height="Ti.UI.SIZE">
+				<ImageView image="/images/poimen-mobile.png"></ImageView>
+				<View height="15"></View>
+				<Button id="bDonate" title="Donate" onClick="onDonateClick" width="120" height="37" color="#FFFFFF" backgroundImage="/images/orangeButtonBackground.png"></Button>
 			</View>
-		</ScrollView>
-	-->	
-		<WebView id="web"></WebView>
+			
+		</View>
+		
+		<WebView id="web" visible="false"></WebView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
 		<View id="tryAgain" visible="false" onClick="tryAgain">
 			<Label id="tryAgainLabel">Try again!</Label>

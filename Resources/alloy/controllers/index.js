@@ -7,20 +7,21 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.tabs = Ti.UI.createTabGroup({
-        id: "tabs"
+        id: "tabs",
+        navBarHidden: "true"
     });
     $.__views.home = Alloy.createController("home", {
         id: "home"
     });
-    $.__views.__alloyId0 = Ti.UI.createTab({
+    $.__views.__alloyId5 = Ti.UI.createTab({
         window: $.__views.home.getViewEx({
             recurse: true
         }),
         title: "Home",
         icon: "/icons/53-house.png",
-        id: "__alloyId0"
+        id: "__alloyId5"
     });
-    $.__views.tabs.addTab($.__views.__alloyId0);
+    $.__views.tabs.addTab($.__views.__alloyId5);
     $.__views.blog = Alloy.createController("blog", {
         id: "blog"
     });
@@ -48,15 +49,15 @@ function Controller() {
     $.__views.contact = Alloy.createController("contact", {
         id: "contact"
     });
-    $.__views.__alloyId1 = Ti.UI.createTab({
+    $.__views.__alloyId6 = Ti.UI.createTab({
         window: $.__views.contact.getViewEx({
             recurse: true
         }),
         title: "Contact",
         icon: "/icons/96-book.png",
-        id: "__alloyId1"
+        id: "__alloyId6"
     });
-    $.__views.tabs.addTab($.__views.__alloyId1);
+    $.__views.tabs.addTab($.__views.__alloyId6);
     $.__views.tabs && $.addTopLevelView($.__views.tabs);
     exports.destroy = function() {};
     _.extend($, $.__views);

@@ -8,6 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
+        navBarHidden: "true",
         backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         title: "Home",
@@ -15,10 +16,42 @@ function Controller() {
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
+    $.__views.loadingScreen = Ti.UI.createView({
+        id: "loadingScreen",
+        backgroundColor: "#000000"
+    });
+    $.__views.win.add($.__views.loadingScreen);
+    $.__views.__alloyId2 = Ti.UI.createView({
+        layout: "vertical",
+        height: Ti.UI.SIZE,
+        id: "__alloyId2"
+    });
+    $.__views.loadingScreen.add($.__views.__alloyId2);
+    $.__views.__alloyId3 = Ti.UI.createImageView({
+        image: "/images/poimen-mobile.png",
+        id: "__alloyId3"
+    });
+    $.__views.__alloyId2.add($.__views.__alloyId3);
+    $.__views.__alloyId4 = Ti.UI.createView({
+        height: "15",
+        id: "__alloyId4"
+    });
+    $.__views.__alloyId2.add($.__views.__alloyId4);
+    $.__views.bDonate = Ti.UI.createButton({
+        id: "bDonate",
+        title: "Donate",
+        width: "120",
+        height: "37",
+        color: "#FFFFFF",
+        backgroundImage: "/images/orangeButtonBackground.png"
+    });
+    $.__views.__alloyId2.add($.__views.bDonate);
+    onDonateClick ? $.__views.bDonate.addEventListener("click", onDonateClick) : __defers["$.__views.bDonate!click!onDonateClick"] = true;
     $.__views.web = Ti.UI.createWebView({
         backgroundColor: "transparent",
         hideLoadIndicator: true,
-        id: "web"
+        id: "web",
+        visible: "false"
     });
     $.__views.win.add($.__views.web);
     $.__views.errorLabel = Ti.UI.createLabel({
@@ -65,11 +98,18 @@ function Controller() {
     var firstTime = true;
     var init = function() {
         Ti.API.info("[pastors][init]");
-        view.width = Ti.Platform.displayCaps.platformWidth;
-        if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_home_tab")) {
-            firstTime && populate();
-            updateFromNetwork();
-        } else populate(); else populate();
+        if (view.visible) {
+            view.width = Ti.Platform.displayCaps.platformWidth;
+            if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_home_tab")) {
+                firstTime && populate();
+                updateFromNetwork();
+            } else populate(); else populate();
+        }
+    };
+    var onDonateClick = function() {
+        $.loadingScreen.visible = false;
+        view.visible = true;
+        init();
     };
     var populate = function() {
         var home_title_text = Alloy.Globals.db.getValueByKey("home_title_text");
@@ -130,6 +170,7 @@ function Controller() {
         updateFromNetwork();
     };
     __defers["$.__views.win!focus!init"] && $.__views.win.addEventListener("focus", init);
+    __defers["$.__views.bDonate!click!onDonateClick"] && $.__views.bDonate.addEventListener("click", onDonateClick);
     __defers["$.__views.tryAgain!click!tryAgain"] && $.__views.tryAgain.addEventListener("click", tryAgain);
     _.extend($, exports);
 }

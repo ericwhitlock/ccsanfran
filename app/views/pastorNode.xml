@@ -1,18 +1,12 @@
 <Alloy>
 	<Window title="Pastor" id="win" onFocus="init">
-	<!-->	<ScrollView width="100%" height="100%" contentHeight="Ti.UI.SIZE">
-			<View layout="vertical">
-				<View height="200" width="100%">
-					<ImageView id="img" top="10" width="200" height="200"></ImageView>
-					<Button platform="android" title="Bio" onClick="onBioClick" width="65" height="37" right="10"></Button>
-				</View>
-				<View height="8"/>
-				<Label id="vision" class="p" height="Ti.UI.SIZE"></Label>
-				<View height="8"/>
+		<ScrollView top="0" bottom="0" right="0" left="0" contentHeight="Ti.UI.SIZE" platform="android">
+			<View height="Ti.UI.SIZE" top="0">
+				<WebView id="web" touchEnabled="false"></WebView>
+				<Button title="Bio" onClick="onBioClick" width="65" height="37" top="5" right="10"></Button>
 			</View>
 		</ScrollView>
-	-->	
-		<WebView id="web"></WebView>
+		<WebView id="web" platform="ios"></WebView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
 	</Window>
 </Alloy>

@@ -14,15 +14,17 @@ var pastorObject = args.pastorObject || {field_profile_full_name:'', field_photo
 
 win.title = (pastorObject.field_profile_full_name) ? pastorObject.field_profile_full_name : '';
 
-var bBio = Ti.UI.createButton({title:Alloy.isTablet ? 'Biography' : 'Bio'});
-bBio.addEventListener('click', function(e){
-	onBioClick();
-});
+
+
 if(OS_ANDROID){
-	bBio.top = 5;
-	bBio.right = 5;
-	win.add(bBio);
+//	bBio.top = 5;
+//	bBio.right = 5;
+//	win.add(bBio);
 }else{
+	var bBio = Ti.UI.createButton({title:Alloy.isTablet ? 'Biography' : 'Bio'});
+	bBio.addEventListener('click', function(e){
+		onBioClick();
+	});
 	win.rightNavButton = bBio;
 }
 

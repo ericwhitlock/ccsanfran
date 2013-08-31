@@ -1,5 +1,5 @@
 <Alloy>
-	<TabGroup id="tabs">
+	<TabGroup id="tabs" navBarHidden="true">
 		<Tab title="Home" icon="/icons/53-house.png">
 			<Require type="view" src="home" id="home"/>
 		</Tab>

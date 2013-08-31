@@ -10,22 +10,29 @@ var firstTime = true;
 var init = function(){
 	Ti.API.info('[pastors][init]');
 	
-	view.width = Ti.Platform.displayCaps.platformWidth; 
+	if(view.visible){
+		view.width = Ti.Platform.displayCaps.platformWidth; 
 	
-	if(Ti.Network.online){
-		if(Alloy.Globals.shouldUpdate('last_update_home_tab')){
-			if(firstTime){
+		if(Ti.Network.online){
+			if(Alloy.Globals.shouldUpdate('last_update_home_tab')){
+				if(firstTime){
+					populate();
+				}
+				updateFromNetwork();
+			}else{
 				populate();
 			}
-			updateFromNetwork();
+			
 		}else{
 			populate();
 		}
-		
-	}else{
-		populate();
 	}
-	
+};
+
+var onDonateClick = function(){
+	$.loadingScreen.visible = false;
+	view.visible = true;
+	init();
 };
 
 var populate = function(){

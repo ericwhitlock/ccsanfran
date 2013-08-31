@@ -8,6 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
+        navBarHidden: false,
         backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         title: "Bio",

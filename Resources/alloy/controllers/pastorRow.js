@@ -9,15 +9,15 @@ function Controller() {
     $.__views.row = Ti.UI.createTableViewRow({
         selectionStyle: Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
         id: "row",
-        height: "70",
+        height: "88",
         hasChild: "true"
     });
     $.__views.row && $.addTopLevelView($.__views.row);
     $.__views.thumb = Ti.UI.createImageView({
         id: "thumb",
         left: "0",
-        height: "70",
-        width: "70"
+        height: "88",
+        width: "88"
     });
     $.__views.row.add($.__views.thumb);
     $.__views.titleLabel = Ti.UI.createLabel({
@@ -27,8 +27,8 @@ function Controller() {
         },
         color: "#d15941",
         id: "titleLabel",
-        left: "83",
-        top: "10",
+        left: "95",
+        top: "15",
         height: "24"
     });
     $.__views.row.add($.__views.titleLabel);
@@ -39,8 +39,8 @@ function Controller() {
         },
         color: "#516a0f",
         id: "subTitleLabel",
-        left: "83",
-        top: "38",
+        left: "95",
+        top: "42",
         height: "18"
     });
     $.__views.row.add($.__views.subTitleLabel);

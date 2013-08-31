@@ -60,6 +60,6 @@ Alloy.Globals.getReadableDateTime = function(d) {
 
 Alloy.Globals.TITLE_LABEL_COLOR = "#d15941";
 
-Alloy.Globals.HTML_STYLE = "h1{color:#d15941;font-size:22;font-family:Helvetica;} h4{color:#516a0f;font-size:18;font-family:Helvetica;} p{color:#74701e;font-size:15;font-family:Helvetica;} ";
+Alloy.Globals.HTML_STYLE = "h1{font-size:22;font-family:Helvetica;} h4{font-size:18;font-family:Helvetica;} p{font-size:15;font-family:Helvetica;} ";
 
 Alloy.createController("index");

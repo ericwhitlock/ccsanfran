@@ -8,6 +8,7 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
+        navBarHidden: false,
         backgroundColor: "#FFF7CD",
         barColor: "#e2b958",
         title: "Blog",
@@ -28,27 +29,6 @@ function Controller() {
         visible: "false"
     });
     $.__views.win.add($.__views.errorLabel);
-    $.__views.tryAgain = Ti.UI.createView({
-        borderRadius: 10,
-        borderColor: "#a99b43",
-        backgroundColor: "#e2ca72",
-        width: 145,
-        height: 75,
-        id: "tryAgain",
-        visible: "false"
-    });
-    $.__views.win.add($.__views.tryAgain);
-    tryAgain ? $.__views.tryAgain.addEventListener("click", tryAgain) : __defers["$.__views.tryAgain!click!tryAgain"] = true;
-    $.__views.tryAgainLabel = Ti.UI.createLabel({
-        font: {
-            fontWeight: "bold",
-            fontSize: 17
-        },
-        color: "#f09b1e",
-        text: "Try again!",
-        id: "tryAgainLabel"
-    });
-    $.__views.tryAgain.add($.__views.tryAgainLabel);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var Alloy = require("alloy");
@@ -60,22 +40,24 @@ function Controller() {
     var body = args.body || "";
     var author = args.author || "";
     win.title = title;
-    var bComments = Ti.UI.createButton({
+    var bComments;
+    bComments = Ti.UI.createButton({
         title: "Comments"
     });
     bComments.addEventListener("click", function() {
+        onCommentsClick();
+    });
+    win.rightNavButton = bComments;
+    var firstTime = true;
+    var isUpdating = false;
+    var now;
+    var onCommentsClick = function() {
         var win = Alloy.createController("comments", {
             nid: nid,
             tab: tab
         }).getView();
         tab.open(win);
-    });
-    bComments.top = 60;
-    bComments.right = 5;
-    win.add(bComments);
-    var firstTime = true;
-    var isUpdating = false;
-    var now;
+    };
     var init = function() {
         Ti.API.info("[blog][init]");
         if (Ti.Network.online) if (Alloy.Globals.shouldUpdate("last_update_blog_node_" + nid)) {
@@ -128,14 +110,8 @@ function Controller() {
     var handleError = function() {
         isUpdating = false;
     };
-    var tryAgain = function() {
-        $.tryAgain.visible = false;
-        $.errorLabel.visible = false;
-        isUpdating = false;
-        updateFromNetwork();
-    };
     __defers["$.__views.win!focus!init"] && $.__views.win.addEventListener("focus", init);
-    __defers["$.__views.tryAgain!click!tryAgain"] && $.__views.tryAgain.addEventListener("click", tryAgain);
+    __defers["$.__views.bComments!click!onCommentsClick"] && $.__views.bComments.addEventListener("click", onCommentsClick);
     _.extend($, exports);
 }
 
