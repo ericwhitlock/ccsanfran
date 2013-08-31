@@ -58,7 +58,7 @@ Alloy.Globals.getReadableDateTime = function(d) {
     return str;
 };
 
-Alloy.Globals.TITLE_LABEL_COLOR = "#d15941";
+Alloy.Globals.TITLE_LABEL_COLOR = "#000000";
 
 Alloy.Globals.HTML_STYLE = "h1{font-size:22;font-family:Helvetica;} h4{font-size:18;font-family:Helvetica;} p{font-size:15;font-family:Helvetica;} ";
 

@@ -18,7 +18,7 @@ function Controller() {
             fontWeight: "bold",
             fontSize: 17
         },
-        color: "#d15941",
+        color: "#b82b21",
         id: "titleLabel",
         left: "10",
         right: "12",

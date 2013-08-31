@@ -41,7 +41,7 @@ function Controller() {
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
     $.__views.tv = Ti.UI.createTableView({
         backgroundColor: "#FFF7CD",
-        separatorColor: "#e0cc5b",
+        separatorColor: "#f6eebf",
         id: "tv",
         width: Ti.UI.FILL
     });

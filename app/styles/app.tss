@@ -17,7 +17,6 @@
 "Window[platform=android]": {
 	navBarHidden:true,
 	backgroundColor: "#FFF7CD", // was f6e18e, new: FBFFBD
-	barColor:"#e2b958" // was 999999
 },
 "Window[platform=ios]": {
 	navBarHidden:false,
@@ -26,7 +25,7 @@
 },
 "TableView":{
 	backgroundColor:"#FFF7CD", // was DDDDDD
-	separatorColor:"#e0cc5b" // was CCCCCC
+	separatorColor:'#f6eebf'//"#e0cc5b" // was CCCCCC
 },
 "TableViewRow": {
 	selectionStyle:Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
@@ -42,7 +41,7 @@
 
 "#titleLabel":{
 	font:{fontWeight:"bold", fontSize:17},
-	color:"#d15941" // was 000000
+	color:"#b82b21" // was 000000
 }
 
 "#subTitleLabel":{
