@@ -10,7 +10,6 @@ function Controller() {
     $.__views.win = Ti.UI.createWindow({
         navBarHidden: "true",
         backgroundColor: "#FFF7CD",
-        barColor: "#e2b958",
         title: "Home",
         id: "win"
     });
