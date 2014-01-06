@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="Contact" onFocus="init" navBarHidden="true">
+	<Window id="win" title="Contact" onFocus="init">
 		<WebView id="web"></WebView>
 		<Label id="errorLabel" visible="false">Please check your internet connection.</Label>
 		<View id="tryAgain" visible="false" onClick="tryAgain">

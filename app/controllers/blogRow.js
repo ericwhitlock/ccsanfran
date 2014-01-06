@@ -4,7 +4,8 @@ var Alloy = require('alloy');
 var args = arguments[0] || {};
 var nid = args.nid || '';
 var title = args.title || '';
-var body = args.body || '';
+//var body = args.body || '';
+var body = args.body.safe_value || '';
 var changed = args.changed || '';
 var author = args.field_profile_full_name || null;
 

@@ -15,5 +15,5 @@ iosLaunchConfigurationAttributes/certificate=Eric Whitlock
 iosLaunchConfigurationAttributes/distribute_path=/Users/ewhitlock/Documents/ipa/Poimen
 iosLaunchConfigurationAttributes/keychain=
 iosLaunchConfigurationAttributes/output_format=ipa
-iosLaunchConfigurationAttributes/sdk_version=6.1
-iosLaunchConfigurationAttributes/uuid=0BE3DAC9-9901-4B08-B0CB-EAF6393A3E81
+iosLaunchConfigurationAttributes/sdk_version=7.0
+iosLaunchConfigurationAttributes/uuid=A8CAED4D-7E54-43DC-BB03-0678F58ECCE5

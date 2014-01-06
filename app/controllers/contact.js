@@ -41,13 +41,14 @@ var populate = function(){
 		$.errorLabel.visible = false;
 		$.hang.hide();
 		var contact_data = JSON.parse(contact_data_string);
-		
+
 		// If we decide to go with ScrollView
 		//$.titleLabel.text = contact_data.title;
 		//$.bodyLabel.text = contact_data.body.und[0].safe_value;
 		
 		// If we decide to go with WebView
-		var bodyHtml = '<h1>' + contact_data.title + '</h1>' + contact_data.body.und[0].safe_value;
+		//var bodyHtml = '<h1>' + contact_data.title + '</h1>' + contact_data.body.und[0].safe_value; // this has the duplicate title of Contact at the top 
+		var bodyHtml = contact_data.body.und[0].safe_value;
 		var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style>' + Alloy.Globals.HTML_META + '</head><body>' + bodyHtml + '</body></html>';
 		$.web.html = html;
 	}

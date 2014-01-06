@@ -69,10 +69,18 @@ var updateCommentsButton = function(){
 
 var populate = function(){
 	
+	var node_data_string = Alloy.Globals.db.getValueByKey('blog_data_node_' + nid);
+	if(node_data_string != ''){
+		var node_data = JSON.parse(node_data_string);
+		var stored_body_string = node_data.body.und[0].safe_value;
+		body = stored_body_string;
+	}
+	
 	var bodyHtml = '<h1>' + title + '</h1><h4>' + author + '</h4>' + body;
 	if(OS_ANDROID){
 		bodyHtml = '<br/><br/>' + bodyHtml;
 	}
+
 	var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + '</style>' + Alloy.Globals.HTML_META + '</head><body>' + bodyHtml + '</body></html>';
 	$.web.html = html;
 	
@@ -111,9 +119,14 @@ var updateFromNetwork = function(){
 				// Save the responseText from the xhr in the response variable
 				var response = xhr.responseText;
 				
+				var data = JSON.parse(response);
+				body = data.body.und[0].safe_value;
+				populate();
+				
 				Alloy.Globals.db.updateValueByKey(response, 'blog_data_node_' + nid);
 				updateCommentsButton();
 				Alloy.Globals.db.updateValueByKey(now.toISOString(), 'last_update_blog_node_' + nid);
+				
 				isUpdating = false;
 				now = null;
 			} 

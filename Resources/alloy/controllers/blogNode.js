@@ -8,45 +8,20 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        navBarHidden: true,
+        navBarHidden: false,
         backgroundColor: "#FFF7CD",
+        barColor: "#e2b958",
         title: "Blog",
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     init ? $.__views.win.addEventListener("focus", init) : __defers["$.__views.win!focus!init"] = true;
-    $.__views.__alloyId0 = Ti.UI.createScrollView({
-        top: "0",
-        bottom: "0",
-        right: "0",
-        left: "0",
-        contentHeight: Ti.UI.SIZE,
-        id: "__alloyId0"
-    });
-    $.__views.win.add($.__views.__alloyId0);
-    $.__views.__alloyId1 = Ti.UI.createView({
-        height: Ti.UI.SIZE,
-        top: "0",
-        id: "__alloyId1"
-    });
-    $.__views.__alloyId0.add($.__views.__alloyId1);
     $.__views.web = Ti.UI.createWebView({
         backgroundColor: "transparent",
         hideLoadIndicator: true,
-        id: "web",
-        touchEnabled: "false"
+        id: "web"
     });
-    $.__views.__alloyId1.add($.__views.web);
-    $.__views.bComments = Ti.UI.createButton({
-        id: "bComments",
-        title: "Comments",
-        width: Ti.UI.SIZE,
-        height: "37",
-        top: "5",
-        right: "10"
-    });
-    $.__views.__alloyId1.add($.__views.bComments);
-    onCommentsClick ? $.__views.bComments.addEventListener("click", onCommentsClick) : __defers["$.__views.bComments!click!onCommentsClick"] = true;
+    $.__views.win.add($.__views.web);
     $.__views.errorLabel = Ti.UI.createLabel({
         top: 100,
         text: "Please check your internet connection.",
@@ -66,7 +41,13 @@ function Controller() {
     var author = args.author || "";
     win.title = title;
     var bComments;
-    bComments = $.bComments;
+    bComments = Ti.UI.createButton({
+        title: "Comments"
+    });
+    bComments.addEventListener("click", function() {
+        onCommentsClick();
+    });
+    win.rightNavButton = bComments;
     var firstTime = true;
     var isUpdating = false;
     var now;
@@ -95,7 +76,6 @@ function Controller() {
     };
     var populate = function() {
         var bodyHtml = "<h1>" + title + "</h1><h4>" + author + "</h4>" + body;
-        bodyHtml = "<br/><br/>" + bodyHtml;
         var html = '<html><head><style type="text/css">' + Alloy.Globals.HTML_STYLE + "</style>" + Alloy.Globals.HTML_META + "</head><body>" + bodyHtml + "</body></html>";
         $.web.html = html;
         updateCommentsButton();
